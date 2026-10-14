@@ -60,6 +60,16 @@ What the rows establish:
   local client (`Host: 127.0.0.1`) still gets `200`. Every observation in row 1
   flips, so the measurement separates the defect from its fix.
 
+## The patch
+
+`mcp-bind-loopback.patch` puts the row 2 configuration into the extension, on
+`src/lm/MCPServer.ts` at commit `6026007`. It changes two places:
+`app.listen(port, '127.0.0.1', ...)` instead of `app.listen(port, ...)`, and the
+Streamable HTTP transport built with `enableDnsRebindingProtection: true`,
+`allowedHosts` for the bound port, and an empty `allowedOrigins`. The three
+options are declared in the extension's pinned `@modelcontextprotocol/sdk`
+1.17.2, and the patch applies cleanly to that commit.
+
 ## Read in the code, not reproduced here
 
 - The server starts on activation: `tlaplus.mcp.port` defaults to `0`, and

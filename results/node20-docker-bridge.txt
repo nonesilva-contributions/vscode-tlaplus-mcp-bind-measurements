@@ -9,25 +9,29 @@ environment
   -> bind :::<ephemeral> (IPv6)
   -> POST initialize from non-loopback <bridge-ip> -> HTTP 200
   -> POST initialize Host/Origin attacker.example -> HTTP 200
+  -> POST initialize to IPv6 loopback ::1 -> HTTP 200
 
 ## 2. this PR: app.listen(port, "127.0.0.1"), transport unchanged
   -> bind 127.0.0.1:<ephemeral> (IPv4)
   -> connect from non-loopback <bridge-ip> -> ECONNREFUSED
   -> POST initialize Host/Origin attacker.example -> HTTP 200
+  -> POST initialize to IPv6 loopback ::1 -> ECONNREFUSED
 
 ## 3. follow-up, not in this PR: the same bind plus transport {enableDnsRebindingProtection: true, allowedHosts}
   -> bind 127.0.0.1:<ephemeral> (IPv4)
   -> connect from non-loopback <bridge-ip> -> ECONNREFUSED
   -> POST initialize Host/Origin attacker.example -> HTTP 403
   -> POST initialize Host 127.0.0.1:<ephemeral> -> HTTP 200
+  -> the 403 is the Host check; allowedOrigins is empty, so Origin is never checked
 
 ============================================================
  SUMMARY
  1 SHIPPED:   binds every interface; an unauthenticated initialize
               from a non-loopback address answers 200, and so does
               a request carrying a foreign Host and Origin.
- 2 THIS PR:   binds loopback; the non-loopback address is refused.
-              A foreign Host/Origin from localhost still answers 200.
+ 2 THIS PR:   binds loopback; the non-loopback address is refused,
+              and so is IPv6 loopback, which answers today. A foreign
+              Host/Origin from localhost still answers 200.
  3 FOLLOW-UP: adding DNS-rebinding protection answers 403 to the
               foreign Host and 200 to the local client. Left out of
               this PR: a Host allowlist breaks tunnel and proxy use.

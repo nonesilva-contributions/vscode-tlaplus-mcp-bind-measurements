@@ -1,6 +1,6 @@
-// Measures the TLA+ extension MCP server's bind and DNS-rebinding exposure by
-// reproducing src/lm/MCPServer.ts startServer (228-312, commit 6026007): case 1
-// as shipped, case 2 the loopback + DNS-rebinding-protection fix. See README.md.
+// Reproduces src/lm/MCPServer.ts startServer, lines 228-312 at commit 6026007.
+// Case 1 is as shipped, case 2 the loopback bind this PR proposes, case 3 the
+// follow-up that adds DNS-rebinding protection. See README.md.
 
 import os from 'node:os';
 import http from 'node:http';
@@ -25,7 +25,7 @@ function nonLoopbackIPv4() {
 }
 
 // MCPServer.ts POST /mcp handler: no auth, no Host/Origin check beyond the
-// transport options. transportOptions() is late-bound for case 2's allowedHosts.
+// transport options. transportOptions() is late-bound for case 3's allowedHosts.
 function makeApp(transportOptions) {
     const app = express();
     app.use(express.json());
@@ -49,7 +49,7 @@ function makeApp(transportOptions) {
 }
 
 // POST /mcp initialize; resolves on response headers or the socket error. The
-// 800 ms timeout is a bound (coding-001), not a wait.
+// 800 ms timeout is a bound, not a wait.
 function post(host, port, { hostHeader, origin } = {}) {
     return new Promise((resolve) => {
         const headers = {
@@ -85,6 +85,10 @@ function show(r) {
 
 async function main() {
     const eth = nonLoopbackIPv4();
+    if (!eth || eth.startsWith('127.')) {
+        process.stderr.write('no non-loopback IPv4 address found; run this in a container on the bridge network\n');
+        process.exit(2);
+    }
     process.stdout.write('============================================================\n');
     process.stdout.write(' TLA+ extension MCP server -- bind and DNS-rebinding exposure\n');
     process.stdout.write('============================================================\n');
@@ -97,6 +101,7 @@ async function main() {
     process.stdout.write(`  -> bind ${address}:<ephemeral> (${family})\n`);
     process.stdout.write(`  -> POST initialize from non-loopback <bridge-ip> -> ${show(await post(eth, port))}\n`);
     process.stdout.write(`  -> POST initialize Host/Origin attacker.example -> ${show(await post('127.0.0.1', port, { hostHeader: 'attacker.example', origin: 'http://attacker.example' }))}\n`);
+    process.stdout.write(`  -> POST initialize to IPv6 loopback ::1 -> ${show(await post('::1', port))}\n`);
     await new Promise((r) => srv.close(r));
 
     process.stdout.write('\n## 2. this PR: app.listen(port, "127.0.0.1"), transport unchanged\n');
@@ -106,6 +111,7 @@ async function main() {
     process.stdout.write(`  -> bind ${address}:<ephemeral> (${family})\n`);
     process.stdout.write(`  -> connect from non-loopback <bridge-ip> -> ${show(await post(eth, port))}\n`);
     process.stdout.write(`  -> POST initialize Host/Origin attacker.example -> ${show(await post('127.0.0.1', port, { hostHeader: 'attacker.example', origin: 'http://attacker.example' }))}\n`);
+    process.stdout.write(`  -> POST initialize to IPv6 loopback ::1 -> ${show(await post('::1', port))}\n`);
     await new Promise((r) => srv.close(r));
 
     process.stdout.write('\n## 3. follow-up, not in this PR: the same bind plus transport {enableDnsRebindingProtection: true, allowedHosts}\n');
@@ -123,6 +129,7 @@ async function main() {
     process.stdout.write(`  -> connect from non-loopback <bridge-ip> -> ${show(await post(eth, port))}\n`);
     process.stdout.write(`  -> POST initialize Host/Origin attacker.example -> ${show(await post('127.0.0.1', port, { hostHeader: 'attacker.example', origin: 'http://attacker.example' }))}\n`);
     process.stdout.write(`  -> POST initialize Host 127.0.0.1:<ephemeral> -> ${show(await post('127.0.0.1', port, { hostHeader: `127.0.0.1:${port}` }))}\n`);
+    process.stdout.write('  -> the 403 is the Host check; allowedOrigins is empty, so Origin is never checked\n');
     await new Promise((r) => srv.close(r));
 
     process.stdout.write('\n============================================================\n');
@@ -130,8 +137,9 @@ async function main() {
     process.stdout.write(' 1 SHIPPED:   binds every interface; an unauthenticated initialize\n');
     process.stdout.write('              from a non-loopback address answers 200, and so does\n');
     process.stdout.write('              a request carrying a foreign Host and Origin.\n');
-    process.stdout.write(' 2 THIS PR:   binds loopback; the non-loopback address is refused.\n');
-    process.stdout.write('              A foreign Host/Origin from localhost still answers 200.\n');
+    process.stdout.write(' 2 THIS PR:   binds loopback; the non-loopback address is refused,\n');
+    process.stdout.write('              and so is IPv6 loopback, which answers today. A foreign\n');
+    process.stdout.write('              Host/Origin from localhost still answers 200.\n');
     process.stdout.write(' 3 FOLLOW-UP: adding DNS-rebinding protection answers 403 to the\n');
     process.stdout.write('              foreign Host and 200 to the local client. Left out of\n');
     process.stdout.write('              this PR: a Host allowlist breaks tunnel and proxy use.\n');

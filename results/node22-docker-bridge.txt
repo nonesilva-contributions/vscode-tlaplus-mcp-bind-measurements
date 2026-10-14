@@ -1,0 +1,18 @@
+environment
+  Node v22.23.3
+  non-loopback IPv4: <bridge-ip>
+
+## 1. shipped (MCPServer.ts:228-312): transport {sessionIdGenerator: undefined}, app.listen(port) with no host
+  -> bind :::<ephemeral> (IPv6)
+  -> POST initialize from non-loopback <bridge-ip> -> HTTP 200
+  -> POST initialize Host/Origin attacker.example -> HTTP 200
+
+## 2. fix: app.listen(port, "127.0.0.1") + transport {enableDnsRebindingProtection: true, allowedHosts, allowedOrigins: []}
+  -> bind 127.0.0.1:<ephemeral> (IPv4)
+  -> connect from non-loopback <bridge-ip> -> ECONNREFUSED
+  -> POST initialize Host/Origin attacker.example -> HTTP 403
+  -> POST initialize Host 127.0.0.1:<ephemeral> -> HTTP 200
+
+done
+
+== DONE: measurement complete ==

@@ -85,6 +85,9 @@ function show(r) {
 
 async function main() {
     const eth = nonLoopbackIPv4();
+    process.stdout.write('============================================================\n');
+    process.stdout.write(' TLA+ extension MCP server -- bind and DNS-rebinding exposure\n');
+    process.stdout.write('============================================================\n');
     process.stdout.write(`environment\n  Node ${process.version}\n  non-loopback IPv4: <bridge-ip>\n`);
 
     process.stdout.write('\n## 1. shipped (MCPServer.ts:228-312): transport {sessionIdGenerator: undefined}, app.listen(port) with no host\n');
@@ -96,7 +99,16 @@ async function main() {
     process.stdout.write(`  -> POST initialize Host/Origin attacker.example -> ${show(await post('127.0.0.1', port, { hostHeader: 'attacker.example', origin: 'http://attacker.example' }))}\n`);
     await new Promise((r) => srv.close(r));
 
-    process.stdout.write('\n## 2. fix: app.listen(port, "127.0.0.1") + transport {enableDnsRebindingProtection: true, allowedHosts, allowedOrigins: []}\n');
+    process.stdout.write('\n## 2. this PR: app.listen(port, "127.0.0.1"), transport unchanged\n');
+    app = makeApp(() => ({ sessionIdGenerator: undefined }));
+    srv = await listen(app, '127.0.0.1');
+    ({ address, port, family } = srv.address());
+    process.stdout.write(`  -> bind ${address}:<ephemeral> (${family})\n`);
+    process.stdout.write(`  -> connect from non-loopback <bridge-ip> -> ${show(await post(eth, port))}\n`);
+    process.stdout.write(`  -> POST initialize Host/Origin attacker.example -> ${show(await post('127.0.0.1', port, { hostHeader: 'attacker.example', origin: 'http://attacker.example' }))}\n`);
+    await new Promise((r) => srv.close(r));
+
+    process.stdout.write('\n## 3. follow-up, not in this PR: the same bind plus transport {enableDnsRebindingProtection: true, allowedHosts}\n');
     let boundPort = 0;
     app = makeApp(() => ({
         sessionIdGenerator: undefined,
@@ -113,6 +125,17 @@ async function main() {
     process.stdout.write(`  -> POST initialize Host 127.0.0.1:<ephemeral> -> ${show(await post('127.0.0.1', port, { hostHeader: `127.0.0.1:${port}` }))}\n`);
     await new Promise((r) => srv.close(r));
 
+    process.stdout.write('\n============================================================\n');
+    process.stdout.write(' SUMMARY\n');
+    process.stdout.write(' 1 SHIPPED:   binds every interface; an unauthenticated initialize\n');
+    process.stdout.write('              from a non-loopback address answers 200, and so does\n');
+    process.stdout.write('              a request carrying a foreign Host and Origin.\n');
+    process.stdout.write(' 2 THIS PR:   binds loopback; the non-loopback address is refused.\n');
+    process.stdout.write('              A foreign Host/Origin from localhost still answers 200.\n');
+    process.stdout.write(' 3 FOLLOW-UP: adding DNS-rebinding protection answers 403 to the\n');
+    process.stdout.write('              foreign Host and 200 to the local client. Left out of\n');
+    process.stdout.write('              this PR: a Host allowlist breaks tunnel and proxy use.\n');
+    process.stdout.write('============================================================\n');
     process.stdout.write('\ndone\n');
 }
 

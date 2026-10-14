@@ -2,7 +2,9 @@
 
 Measurements behind a proposed change to
 [tlaplus/vscode-tlaplus](https://github.com/tlaplus/vscode-tlaplus): bind the
-TLA+ extension's MCP server to loopback and enable DNS-rebinding protection.
+TLA+ extension's MCP server to loopback.
+
+## The problem
 
 `src/lm/MCPServer.ts` builds an Express app whose `POST /mcp` has no
 authentication and no `Host`/`Origin` check, constructs the Streamable HTTP
@@ -14,12 +16,57 @@ as "listen on a free port", so the server starts on activation unless the port
 is set to `-1`. Source at commit `6026007`:
 <https://github.com/tlaplus/vscode-tlaplus/blob/60260075203e463a6cf55fad7fa3051d4c320f9d/src/lm/MCPServer.ts>.
 
+## Affected versions
+
+Read from the file's own history: all 44 revisions of `src/lm/MCPServer.ts` were
+fetched and checked.
+
+- The MCP server arrived in commit `9013319` (2025-05-22) and called
+  `app.listen(port, ...)` with no host from its first revision, so this is
+  original to the feature, not a regression.
+- No revision ever passed a host, and none ever set
+  `enableDnsRebindingProtection`, `allowedHosts` or `allowedOrigins`. The pinned
+  SDK declares all three; they are simply not used.
+- The server was off by default at first: `tlaplus.mcp.port` defaulted to `-1`
+  until commit `249065f` (2025-12-02) changed that default to `0`. From there on
+  the server starts with the extension.
+
+The project publishes a rolling release on each push to master, with a CalVer
+version of the form `YYYY.M.DHHMM`; the `1.7.0` in `package.json` is static and
+marks nothing. So the code is affected from the release built on 2025-05-22
+through the latest, built 2026-10-13 from master `6026007`, and it is on by
+default from the release built on 2025-12-02. Setting `tlaplus.mcp.port` to `-1`
+disables the server in every affected version.
+
 This repository holds a small Node module that reproduces the listen and
 transport options before and after the change and checks reachability from
 inside the Node runtime, a runner that executes it in Docker's bridge network
 so that no host firewall is involved, and the captured outputs per Node version.
 Same class as
 [elixir-ls-mcp-bind-measurements](https://github.com/nonesilva-contributions/elixir-ls-mcp-bind-measurements).
+
+## What the loopback bind does not break
+
+Read in the extension at the same commit:
+
+- Every endpoint the extension advertises is `localhost`: the logged URL, the
+  Cursor registration and the VS Code `McpHttpServerDefinition`. Nothing it
+  registers points anywhere else.
+- Remote development keeps working. The extension declares no `extensionKind`,
+  so under Remote-SSH, a dev container, WSL or Codespaces the extension host and
+  the MCP server run on the same machine, and the editor issues the HTTP request
+  from that extension host.
+- The repository's own tests already connect over `127.0.0.1`, and its Playwright
+  helper binds `127.0.0.1` explicitly.
+- A tunnel in front of the port still works, because the tunnel client dials
+  localhost on the same host.
+
+What it does change: a client on another machine, reaching the port over a LAN
+address, stops working. Nothing in the repository advertises that use and no
+setting exposes the server on purpose; `tlaplus.mcp.port` only picks the port.
+One more point for a pull request: `app.listen(port)` today also answers on
+`[::1]`, and binding `127.0.0.1` drops that, so a client that resolves
+`localhost` to IPv6 without falling back would have to use `127.0.0.1`.
 
 ## Run it
 
@@ -46,29 +93,34 @@ Identical on Node 20.20.2 and 22.23.3. Outputs are in [`results/`](results/).
 | # | Setup | Result |
 |---|-------|--------|
 | 1 | shipped (`MCPServer.ts:228-312`): transport `{ sessionIdGenerator: undefined }`, `app.listen(port)` with no host | bind `:::P` (`::`, dual-stack); `initialize` from the non-loopback address: `HTTP 200`; with `Host`/`Origin` `attacker.example`: `HTTP 200` |
-| 2 | the change: `app.listen(port, "127.0.0.1")` plus transport `{ enableDnsRebindingProtection: true, allowedHosts, allowedOrigins: [] }` | bind `127.0.0.1:P`; from the non-loopback address: `ECONNREFUSED`; `Host`/`Origin` `attacker.example`: `HTTP 403`; `Host` `127.0.0.1`: `HTTP 200` |
+| 2 | this pull request: `app.listen(port, '127.0.0.1')`, transport unchanged | bind `127.0.0.1:P`; from the non-loopback address: `ECONNREFUSED`; `Host`/`Origin` `attacker.example`: `HTTP 200` |
+| 3 | follow-up, not in this pull request: the same bind plus transport `{ enableDnsRebindingProtection: true, allowedHosts }` | bind `127.0.0.1:P`; from the non-loopback address: `ECONNREFUSED`; `Host`/`Origin` `attacker.example`: `HTTP 403`; `Host` `127.0.0.1`: `HTTP 200` |
 
 What the rows establish:
 
-- Row 1: the server as shipped binds `::`, so it is reachable over IPv4 and IPv6
+- Row 1: as shipped the server binds `::`, so it is reachable over IPv4 and IPv6
   from any interface; it answers an unauthenticated `initialize` from a
   non-loopback address; and it accepts a request carrying a foreign `Host` and
-  `Origin`. It is reachable from the network without authentication and without
-  DNS-rebinding protection.
-- Row 2: binding to loopback refuses the non-loopback address; DNS-rebinding
-  protection answers the foreign `Host`/`Origin` with `403`; and the legitimate
-  local client (`Host: 127.0.0.1`) still gets `200`. Every observation in row 1
-  flips, so the measurement separates the defect from its fix.
+  `Origin`.
+- Row 2: binding to loopback refuses the non-loopback address. It does not stop
+  a request that reaches the port locally with a foreign `Host`, and that is the
+  honest limit of this change.
+- Row 3: the `Host` allowlist closes that remaining case and still serves the
+  legitimate local client. It is left out of this pull request for the reason
+  given under "The patch".
 
 ## The patch
 
-`mcp-bind-loopback.patch` puts the row 2 configuration into the extension, on
-`src/lm/MCPServer.ts` at commit `6026007`. It changes two places:
-`app.listen(port, '127.0.0.1', ...)` instead of `app.listen(port, ...)`, and the
-Streamable HTTP transport built with `enableDnsRebindingProtection: true`,
-`allowedHosts` for the bound port, and an empty `allowedOrigins`. The three
-options are declared in the extension's pinned `@modelcontextprotocol/sdk`
-1.17.2, and the patch applies cleanly to that commit.
+`mcp-bind-loopback.patch` is one line on `src/lm/MCPServer.ts` at commit
+`6026007`: `app.listen(port, '127.0.0.1', ...)` instead of
+`app.listen(port, ...)`. It applies cleanly to that commit.
+
+Case 3, the DNS-rebinding protection, is deliberately left out of the patch. The
+SDK matches the `Host` header against the allowlist as an exact string, so a
+request that arrives through a tunnel or a reverse proxy carries that hostname
+and is refused. The project's own TLAiBench puts a Cloudflare tunnel in front of
+this port, so an unconditional allowlist would break it. That half needs a
+setting of its own and belongs in its own change.
 
 ## Read in the code, not reproduced here
 

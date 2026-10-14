@@ -1,20 +1,6 @@
 --- a/src/lm/MCPServer.ts
 +++ b/src/lm/MCPServer.ts
-@@ -239,8 +239,12 @@
-                         req.headers['mcp-protocol-version'] = protocolVersion.split(',')[0].trim();
-                     }
- 
-+                    const actualPort = (this.mcpServer?.address() as { port: number })?.port || port;
-                     const transport: StreamableHTTPServerTransport = new StreamableHTTPServerTransport({
--                        sessionIdGenerator: undefined // Use stateless mode to avoid initialization complexity
-+                        sessionIdGenerator: undefined, // Use stateless mode to avoid initialization complexity
-+                        enableDnsRebindingProtection: true,
-+                        allowedHosts: [`127.0.0.1:${actualPort}`, `localhost:${actualPort}`],
-+                        allowedOrigins: []
-                     });
-                     res.on('close', () => {
-                         console.log('Request closed');
-@@ -309,7 +313,7 @@
+@@ -309,7 +309,7 @@
              });
  
  

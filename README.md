@@ -60,10 +60,10 @@ of each Node version is in `results/`. Same class as
 
 Read in the extension at the same commit:
 
-- The extension advertises its URL in five places, and this change rewrites all
-  of them to `127.0.0.1`: the log line, the output channel, the Cursor
-  registration and the VS Code `McpHttpServerDefinition`. Nothing it registers
-  points anywhere else.
+- The extension builds its URL in five places, and this change rewrites all of
+  them to `127.0.0.1`: the logged URL, the Cursor registration and its
+  confirmation line, and the VS Code `McpHttpServerDefinition` and its
+  confirmation line. Nothing it registers points anywhere else.
 - Remote development keeps working. The extension declares no `extensionKind`.
   Under Remote-SSH, a dev container, WSL and Codespaces the extension host and
   the MCP server run on the same machine.
@@ -159,10 +159,9 @@ with the shipped bind:   2 passing, 1 failing, exit 1
 with this change:        3 passing, exit 0
 ```
 
-Case 3, the DNS-rebinding protection, is left out of the patch. The SDK matches
-the `Host` header against the allowlist as an exact string. A request that
-arrives through a tunnel or a reverse proxy carries the hostname of that front
-end and is refused. `CONTRIBUTING.md` of the project documents running
+Case 3, the DNS-rebinding protection, is left out of the patch. The SDK checks
+the `Host` header against a fixed list. A request that arrives through a tunnel
+or a reverse proxy carries the hostname of that front end and is refused. `CONTRIBUTING.md` of the project documents running
 `npx localtunnel` in front of a local port, so that shape is in use there. That
 half needs a setting of its own and belongs in its own change.
 

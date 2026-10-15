@@ -119,6 +119,7 @@ Identical on Node 20.20.2 and 22.23.3. Outputs are in [`results/`](results/).
 | 1 | shipped: transport `{ sessionIdGenerator: undefined }`, `app.listen(port)` with no host | bind `:::<port-1>`; from the non-loopback address `HTTP 200`; foreign `Host` and `Origin` `HTTP 200`; `::1` `HTTP 200`; browser preflight `HTTP 200` with no `Access-Control-Allow-Origin` |
 | 2 | this pull request: `app.listen(port, '127.0.0.1')`, transport unchanged | bind `127.0.0.1:<port-2>`; from the non-loopback address `ECONNREFUSED`; foreign `Host` and `Origin` `HTTP 200`; `::1` `ECONNREFUSED` |
 | 3 | follow-up, not in this pull request: the same bind plus `{ enableDnsRebindingProtection: true, allowedHosts, allowedOrigins: [] }` | bind `127.0.0.1:<port-3>`; from the non-loopback address `ECONNREFUSED`; foreign `Host` with no `Origin` `HTTP 403`; allowed `Host` with foreign `Origin` `HTTP 200`; `Host localhost` `HTTP 200` |
+| 4 | review suggestion: `app.listen(port, 'localhost')`, transport unchanged | `localhost` resolves to `::1, 127.0.0.1`; bind `::1:<port-4>`, IPv6 only; `127.0.0.1` `ECONNREFUSED`; `::1` `HTTP 200` |
 
 What the rows establish:
 
@@ -135,6 +136,14 @@ What the rows establish:
   request still passes with the name the extension advertises. The `Origin` of
   that request is foreign and is not checked, because `allowedOrigins` is empty.
   The two headers were sent apart, so the `403` is attributed to the `Host`.
+
+- Row 4: for a server bind, Node resolves the name and binds a single family,
+  the first the resolver gives. In these images that is `::1`, so the socket is
+  IPv6 loopback only and a client dialing `127.0.0.1` is refused. On a host
+  whose resolver puts IPv4 first, the same call binds `127.0.0.1` only. So a
+  `localhost` default needs the advertised URLs built from the real
+  `server.address()`, and a test that requires a loopback address, not the
+  literal.
 
 Every row carries an expected value. The module compares each one and prints a
 summary line per row. If one row differs, it prints `MISMATCH`, writes no

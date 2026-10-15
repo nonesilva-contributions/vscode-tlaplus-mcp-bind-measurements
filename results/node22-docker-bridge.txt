@@ -26,6 +26,12 @@ environment
   -> POST initialize Host 127.0.0.1:<port-3>, Origin attacker.example -> HTTP 200
   -> POST initialize Host localhost:<port-3> -> HTTP 200
 
+## 4. review suggestion: app.listen(port, "localhost"), transport unchanged
+  -> localhost resolves to: ::1, 127.0.0.1
+  -> bind ::1:<port-4> (IPv6)
+  -> POST initialize to 127.0.0.1 -> ECONNREFUSED
+  -> POST initialize to ::1 -> HTTP 200
+
 ============================================================
  SUMMARY, one line per row above
  as expected  case 1 binds the unspecified address: ::
@@ -42,6 +48,9 @@ environment
  as expected  case 3 refuses a foreign Host with no Origin: HTTP 403
  as expected  case 3 ignores Origin when the allowlist is empty: HTTP 200
  as expected  case 3 serves the name the extension advertises: HTTP 200
+ as expected  case 4 binds one family only, the first the resolver gives: ::1
+ as expected  case 4 refuses IPv4 loopback when bound to ::1: ECONNREFUSED
+ as expected  case 4 answers on IPv6 loopback: HTTP 200
 ============================================================
 
 done

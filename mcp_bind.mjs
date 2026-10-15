@@ -4,6 +4,7 @@
 
 import fs from 'node:fs';
 import os from 'node:os';
+import dns from 'node:dns';
 import http from 'node:http';
 import express from 'express';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -204,6 +205,20 @@ async function main() {
     answer = await probe('case 3 serves the name the extension advertises', 'HTTP 200', '127.0.0.1', port,
         { hostHeader: `localhost:${port}` });
     out(`  -> POST initialize Host localhost:<port-3> -> ${show(answer)}\n`);
+    await new Promise((r) => srv.close(r));
+
+    out('\n## 4. review suggestion: app.listen(port, "localhost"), transport unchanged\n');
+    const names = await dns.promises.lookup('localhost', { all: true });
+    out(`  -> localhost resolves to: ${names.map((n) => n.address).join(', ')}\n`);
+    app = makeApp(() => ({ sessionIdGenerator: undefined }));
+    srv = await listen(app, 'localhost');
+    ({ address, port, family } = srv.address());
+    record('case 4 binds one family only, the first the resolver gives', address, '::1');
+    out(`  -> bind ${address}:<port-4> (${family})\n`);
+    answer = await probe('case 4 refuses IPv4 loopback when bound to ::1', 'ECONNREFUSED', '127.0.0.1', port);
+    out(`  -> POST initialize to 127.0.0.1 -> ${show(answer)}\n`);
+    answer = await probe('case 4 answers on IPv6 loopback', 'HTTP 200', '::1', port);
+    out(`  -> POST initialize to ::1 -> ${show(answer)}\n`);
     await new Promise((r) => srv.close(r));
 
     out('\n============================================================\n');

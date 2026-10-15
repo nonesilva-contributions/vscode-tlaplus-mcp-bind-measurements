@@ -10,12 +10,14 @@ IMG22="node:22-slim@sha256:c3de60bf2f9dd0ac6370e6117950ff62d6e339527e7472301c9c7
 
 versions=("$@"); [ ${#versions[@]} -gt 0 ] || versions=(20 22)
 mkdir -p results
-name=""; tmp=""
+name=""; tmp=""; rc=0
 cleanup() {
   [ -n "$name" ] && docker rm -f "$name" >/dev/null 2>&1 || true
   [ -n "$tmp" ] && rm -f "$tmp" || true
 }
-trap cleanup EXIT INT TERM
+stop() { cleanup; exit 130; }
+trap cleanup EXIT
+trap stop INT TERM
 
 echo "Running the measurement in Docker. Each Node version takes about a minute,"
 echo "and the output appears in bursts, not line by line."
@@ -24,26 +26,30 @@ for V in "${versions[@]}"; do
   case "$V" in
     20) IMG="$IMG20" ;;
     22) IMG="$IMG22" ;;
-    *) echo "unknown node version: $V (pinned versions: 20, 22)"; exit 2 ;;
+    *) echo "unknown node version: $V, pinned versions are 20 and 22"; exit 2 ;;
   esac
   out="results/node$V-docker-bridge.txt"
   tmp="$(mktemp)"
-  name="mcp-bind-$V-$$"
+  name="mcp-bind-$V-$$-$RANDOM"
   echo
   echo ">> node:$V-slim: fetching the image if needed, then running (quiet, ~1 min)..."
   docker pull -q "$IMG" >/dev/null
   set +e
-  docker run --rm --name "$name" -v "$PWD:/m:ro" "$IMG" \
-    sh -c 'mkdir -p /work && cp /m/mcp_bind.mjs /m/package.json /work/ && cd /work && npm install --omit=dev --silent --no-audit --no-fund && node mcp_bind.mjs' \
+  docker run --rm --name "$name" --network bridge -v "$PWD:/m:ro" "$IMG" \
+    sh -c 'mkdir -p /work && cp /m/mcp_bind.mjs /m/package.json /m/package-lock.json /work/ && cd /work && npm ci --omit=dev --silent --no-audit --no-fund && node mcp_bind.mjs' \
     2>&1 | tee "$tmp"
   code=${PIPESTATUS[0]}
   set -e
-  if [ "$code" -eq 0 ]; then
+  if [ "$code" -eq 0 ] && grep -qx 'done' "$tmp"; then
     printf '\n== DONE: measurement complete ==\n' | tee -a "$tmp"
     cp "$tmp" "$out"
     echo ">> saved to $out"
   else
-    echo ">> run stopped (exit $code); $out left unchanged."
+    rc=1
+    echo ">> run stopped: exit $code, and the measurement did not print its own terminator."
+    echo ">> $out left unchanged."
   fi
   rm -f "$tmp"; tmp=""
 done
+
+exit "$rc"

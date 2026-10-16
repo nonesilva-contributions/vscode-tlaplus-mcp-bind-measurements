@@ -117,9 +117,9 @@ Identical on Node 20.20.2 and 22.23.3. Outputs are in [`results/`](results/).
 | # | Setup | Result |
 |---|-------|--------|
 | 1 | shipped: transport `{ sessionIdGenerator: undefined }`, `app.listen(port)` with no host | bind `:::<port-1>`; from the non-loopback address `HTTP 200`; foreign `Host` and `Origin` `HTTP 200`; `::1` `HTTP 200`; browser preflight `HTTP 200` with no `Access-Control-Allow-Origin` |
-| 2 | this pull request: `app.listen(port, '127.0.0.1')`, transport unchanged | bind `127.0.0.1:<port-2>`; from the non-loopback address `ECONNREFUSED`; foreign `Host` and `Origin` `HTTP 200`; `::1` `ECONNREFUSED` |
+| 2 | first commit of the pull request: `app.listen(port, '127.0.0.1')`, transport unchanged | bind `127.0.0.1:<port-2>`; from the non-loopback address `ECONNREFUSED`; foreign `Host` and `Origin` `HTTP 200`; `::1` `ECONNREFUSED` |
 | 3 | follow-up, not in this pull request: the same bind plus `{ enableDnsRebindingProtection: true, allowedHosts, allowedOrigins: [] }` | bind `127.0.0.1:<port-3>`; from the non-loopback address `ECONNREFUSED`; foreign `Host` with no `Origin` `HTTP 403`; allowed `Host` with foreign `Origin` `HTTP 200`; `Host localhost` `HTTP 200` |
-| 4 | review suggestion: `app.listen(port, 'localhost')`, transport unchanged | `localhost` resolves to `::1, 127.0.0.1`; bind `::1:<port-4>`, IPv6 only; `127.0.0.1` `ECONNREFUSED`; `::1` `HTTP 200` |
+| 4 | the default after review: `app.listen(port, 'localhost')`, transport unchanged | `localhost` resolves to `::1, 127.0.0.1`; bind `::1:<port-4>`, IPv6 only; `127.0.0.1` `ECONNREFUSED`; `::1` `HTTP 200` |
 
 What the rows establish:
 
@@ -151,22 +151,40 @@ conclusion and exits with 1.
 
 ## The patch
 
-`mcp-bind-loopback.patch` is the change this pull request proposes, against
-commit `c869f2a`. It touches two files:
+`mcp-bind-loopback.patch` is the whole change of the pull request, against
+commit `c869f2a`. It has two commits. The first commit bound the server to
+`127.0.0.1`. The second commit follows the review: the address is a setting,
+and the default is `localhost`. The change touches four files:
 
-- `src/lm/MCPServer.ts`: `app.listen(port, '127.0.0.1', ...)`, and the five
-  advertised URLs move from `localhost` to `127.0.0.1`.
-- `tests/suite/lm/mcpServer.test.ts`: one test reads `address()` of the running
-  server and requires `127.0.0.1`.
+- `package.json`: the setting `tlaplus.mcp.host`. The default is `localhost`.
+  The scope is `machine`, so only user or remote settings can change it. A
+  workspace cannot open the port when someone opens it. The description says
+  that any value outside loopback puts a server with no authentication on the
+  network.
+- `src/main.ts`: reads the setting and passes it to the server.
+- `src/lm/MCPServer.ts`: `app.listen(port, host, ...)`. One URL serves the log
+  line and the Cursor and VS Code registrations. It uses the configured name,
+  so the client and the server resolve it in the same way. By default it is
+  `http://localhost:<port>/mcp`, as before the pull request. For a wildcard
+  bind the URL uses loopback. An IPv6 address goes in brackets.
+- `tests/suite/lm/mcpServer.test.ts`: the tests connect to the address that the
+  server bound, because case 4 shows that `localhost` binds only one family.
+  There are three new tests: the default bind is loopback, the server binds the
+  configured host, and the URL host is right for nine configurations.
 
 Measured in the test suite of the project, inside a container, with their own
 commands `npm run lint`, `npm run pretest` and the suite filtered to
 `HTTP endpoint routing`:
 
 ```text
-with the shipped bind:   2 passing, 1 failing, exit 1
-with this change:        3 passing, exit 0
+first commit, with the shipped bind:   2 passing, 1 failing, exit 1
+first commit, with the change:         3 passing, exit 0
+second commit, with the change:        5 passing, exit 0
 ```
+
+The red run of the second commit was not repeated. Its new tests do not
+compile against the first commit, because the server had no host parameter
+then.
 
 Case 3, the DNS-rebinding protection, is left out of the patch. The SDK checks
 the `Host` header against a fixed list. A request that arrives through a tunnel

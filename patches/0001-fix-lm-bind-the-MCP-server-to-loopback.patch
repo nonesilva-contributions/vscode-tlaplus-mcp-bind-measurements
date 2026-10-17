@@ -1,23 +1,24 @@
-From 7e457e90de0d5ecaf5cdd7dcac3715345e4dea0a Mon Sep 17 00:00:00 2001
+From 1d29675a1ab4c9cead1b22169482ba745ac61b91 Mon Sep 17 00:00:00 2001
 From: Guilherme Silva <239806034+NoneSilva@users.noreply.github.com>
-Date: Fri, 16 Oct 2026 17:32:46 +0000
-Subject: [PATCH 2/2] fix(lm): make the MCP bind address a setting
+Date: Sat, 17 Oct 2026 02:17:50 +0000
+Subject: [PATCH] fix(lm): bind the MCP server to loopback
 
-As requested in review, the setting tlaplus.mcp.host chooses the bind address.
-The default is localhost. The advertised URL uses the same name, so the client
-and the server resolve it in the same way. The scope of the setting is machine.
-Only user or remote settings can change it, so opening a workspace cannot open
-the port. The tests connect to the address the server bound, because localhost
-binds only one address family.
+The server called app.listen(port) with no host, so Node bound every interface,
+and POST /mcp has no authentication. The new setting tlaplus.mcp.host chooses
+the bind address, and the default is localhost. The scope of the setting is
+machine. Only user or remote settings can change it, so opening a workspace
+cannot open the port. The advertised URL uses the same name, so the client and
+the server resolve it in the same way. The tests connect to the address the
+server bound. New tests cover the default, a configured host and the URL.
 
 Review: https://github.com/tlaplus/vscode-tlaplus/pull/544#pullrequestreview-5550237271
 Signed-off-by: Guilherme Silva <239806034+NoneSilva@users.noreply.github.com>
 ---
- package.json                     |  6 +++
- src/lm/MCPServer.ts              | 35 ++++++++++++-----
+ package.json                     |  6 ++
+ src/lm/MCPServer.ts              | 35 +++++++++---
  src/main.ts                      |  3 +-
- tests/suite/lm/mcpServer.test.ts | 64 +++++++++++++++++++++++++++++---
- 4 files changed, 93 insertions(+), 15 deletions(-)
+ tests/suite/lm/mcpServer.test.ts | 95 +++++++++++++++++++++++++++++++-
+ 4 files changed, 126 insertions(+), 13 deletions(-)
 
 diff --git a/package.json b/package.json
 index 654dd39..1765991 100644
@@ -37,7 +38,7 @@ index 654dd39..1765991 100644
                      "type": "boolean",
                      "scope": "window",
 diff --git a/src/lm/MCPServer.ts b/src/lm/MCPServer.ts
-index afa6305..68938de 100644
+index 1f19838..68938de 100644
 --- a/src/lm/MCPServer.ts
 +++ b/src/lm/MCPServer.ts
 @@ -1,5 +1,6 @@
@@ -99,12 +100,12 @@ index afa6305..68938de 100644
              });
  
  
--            this.mcpServer = app.listen(port, '127.0.0.1', () => {
+-            this.mcpServer = app.listen(port, () => {
 +            this.mcpServer = app.listen(port, host, () => {
                  // Get the actual port that was assigned (important when port is 0)
                  const actualPort = (this.mcpServer?.address() as { port: number })?.port || port;
  
--                const serverUrl = `http://127.0.0.1:${actualPort}/mcp`;
+-                const serverUrl = `http://localhost:${actualPort}/mcp`;
 +                const bound = this.mcpServer?.address() as AddressInfo;
 +                const serverUrl = `http://${advertisedHost(host, bound)}:${actualPort}/mcp`;
                  const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || 'no workspace';
@@ -114,11 +115,11 @@ index afa6305..68938de 100644
                          (vscode as any).cursor.mcp.registerServer({
                              name: 'TLA+ MCP Server',
                              server: {
--                                url: `http://127.0.0.1:${actualPort}/mcp`
+-                                url: `http://localhost:${actualPort}/mcp`
 +                                url: serverUrl
                              }
                          });
--                        console.log(`TLA+ MCP server registered programmatically in Cursor at http://127.0.0.1:${actualPort}/mcp`);
+-                        console.log(`TLA+ MCP server registered programmatically in Cursor at http://localhost:${actualPort}/mcp`);
 +                        console.log(`TLA+ MCP server registered programmatically in Cursor at ${serverUrl}`);
                          this.mcpOutputChannel.appendLine('TLA+ MCP server registered programmatically in Cursor');
                      } catch (error) {
@@ -127,7 +128,7 @@ index afa6305..68938de 100644
                              if (McpHttpServerDefinition) {
                                  const serverDef = new McpHttpServerDefinition(
                                      'TLA+ MCP Server',
--                                    vscode.Uri.parse(`http://127.0.0.1:${actualPort}/mcp`),
+-                                    vscode.Uri.parse(`http://localhost:${actualPort}/mcp`),
 +                                    vscode.Uri.parse(serverUrl),
                                      {},
                                      '1.0.0'
@@ -136,7 +137,7 @@ index afa6305..68938de 100644
  
                      try {
                          this.vscodeRegistrationDisposable = (vscode.lm as any).registerMcpServerDefinitionProvider('tlaplus.mcp-server', provider);
--                        console.log(`TLA+ MCP server registered programmatically with VS Code at http://127.0.0.1:${actualPort}/mcp`);
+-                        console.log(`TLA+ MCP server registered programmatically with VS Code at http://localhost:${actualPort}/mcp`);
 +                        console.log(`TLA+ MCP server registered programmatically with VS Code at ${serverUrl}`);
                          this.mcpOutputChannel.appendLine('TLA+ MCP server registered programmatically with VS Code');
                      } catch (error) {
@@ -156,7 +157,7 @@ index 58c94fa..eb4c68f 100644
      }
      syncTlcStatisticsSetting()
 diff --git a/tests/suite/lm/mcpServer.test.ts b/tests/suite/lm/mcpServer.test.ts
-index 3db049a..8eff85c 100644
+index 02d4c8b..8eff85c 100644
 --- a/tests/suite/lm/mcpServer.test.ts
 +++ b/tests/suite/lm/mcpServer.test.ts
 @@ -6,7 +6,7 @@ import * as path from 'path';
@@ -194,19 +195,45 @@ index 3db049a..8eff85c 100644
                          port: port as number,
                          path: '/mcp',
                          method: 'POST',
-@@ -341,13 +343,65 @@ suite('MCP Server regressions', () => {
- 
-                 const address = httpServer.address();
-                 const host = typeof address === 'object' && address !== null ? address.address : address;
--                assert.strictEqual(host, '127.0.0.1',
--                    'The MCP server must bind loopback, not every interface');
-+                assert.ok(host === '127.0.0.1' || host === '::1',
-+                    `The MCP server must bind loopback by default, not every interface: ${host}`);
-             } finally {
-                 server?.dispose();
+@@ -313,6 +315,93 @@ suite('MCP Server regressions', () => {
                  prototype.getServer = originalGetServer;
              }
          });
++
++        test('The HTTP server binds loopback', async function() {
++            const prototype = MCPServer.prototype as unknown as {
++                getServer(): unknown;
++            };
++            const originalGetServer = prototype.getServer;
++
++            const connectCalls: unknown[] = [];
++            prototype.getServer = () => ({
++                async connect(transport: unknown) {
++                    connectCalls.push(transport);
++                }
++            });
++
++            let server: MCPServer | undefined;
++            try {
++                server = new MCPServer(0);
++                const httpServer = (server as unknown as {
++                    mcpServer?: http.Server;
++                }).mcpServer;
++                assert.ok(httpServer, 'MCP HTTP server should be created');
++
++                await new Promise<void>((resolve) => {
++                    httpServer.once('listening', () => resolve());
++                });
++
++                const address = httpServer.address();
++                const host = typeof address === 'object' && address !== null ? address.address : address;
++                assert.ok(host === '127.0.0.1' || host === '::1',
++                    `The MCP server must bind loopback by default, not every interface: ${host}`);
++            } finally {
++                server?.dispose();
++                prototype.getServer = originalGetServer;
++            }
++        });
 +
 +        test('The HTTP server binds the configured host', async function() {
 +            const prototype = MCPServer.prototype as unknown as {

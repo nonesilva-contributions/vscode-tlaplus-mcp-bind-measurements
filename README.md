@@ -151,22 +151,25 @@ conclusion and exits with 1.
 
 ## The patch
 
-The change of the pull request is a patch series in `patches/`, one file per
-commit, made with `git format-patch` against commit `c869f2a`:
+The change of the pull request is one commit, as a patch in `patches/`, made
+with `git format-patch` against commit `c869f2a`:
 
 ```text
-patches/0001-Bind-the-MCP-server-to-loopback.patch               the first version
-patches/0002-fix-lm-make-the-MCP-bind-address-a-setting.patch    the change after review
+patches/0001-fix-lm-bind-the-MCP-server-to-loopback.patch
 ```
 
-To apply both on a clone of the extension, with the messages and the author:
+To apply it on a clone of the extension, with the message and the author:
 
 ```text
 git checkout c869f2a
 git am patches/*.patch
 ```
 
-Changes in 0002, since 0001, from the review
+The first version bound the server to the literal `127.0.0.1`. The review asked
+for a setting and for `localhost`, and the project rewrites a commit in review
+instead of adding one, so the commit was rewritten. The first version stays in
+the history of this repository, in `patches/0001-Bind-the-MCP-server-to-loopback.patch`
+at commit `fb01eaa`. What changed since that version, from the review
 https://github.com/tlaplus/vscode-tlaplus/pull/544#pullrequestreview-5550237271:
 
 - `package.json`: the setting `tlaplus.mcp.host`. The default is `localhost`.

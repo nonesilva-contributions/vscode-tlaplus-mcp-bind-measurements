@@ -1,0 +1,6 @@
+--- c869f2a64289d748d7a063bccc8d3e4945b141e9
++++ v1
+
+@@ src/lm/MCPServer.ts startServer @@
+-call       app.listen(port, …)
++call       app.listen(port, '127.0.0.1', …)

@@ -1,0 +1,115 @@
+From 1668ddcc82d6fd33f0e1f489137a7a90167f16c8 Mon Sep 17 00:00:00 2001
+From: Guilherme Silva <239806034+NoneSilva@users.noreply.github.com>
+Date: Thu, 15 Oct 2026 02:48:20 +0000
+Subject: [PATCH v1] Bind the MCP server to loopback
+
+The server is started with app.listen(port) and no host, so Node binds the
+unspecified address and answers on every interface, and POST /mcp has no
+authentication. Bind the listener to 127.0.0.1, advertise that address in the
+log line and in the Cursor and VS Code registrations, and assert the bind
+address in the MCP test suite.
+
+Signed-off-by: Guilherme Silva <239806034+NoneSilva@users.noreply.github.com>
+---
+ src/lm/MCPServer.ts              | 12 +++++------
+ tests/suite/lm/mcpServer.test.ts | 35 ++++++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+), 6 deletions(-)
+
+diff --git a/src/lm/MCPServer.ts b/src/lm/MCPServer.ts
+index 1f19838..afa6305 100644
+--- a/src/lm/MCPServer.ts
++++ b/src/lm/MCPServer.ts
+@@ -309,11 +309,11 @@ export class MCPServer implements vscode.Disposable {
+             });
+ 
+ 
+-            this.mcpServer = app.listen(port, () => {
++            this.mcpServer = app.listen(port, '127.0.0.1', () => {
+                 // Get the actual port that was assigned (important when port is 0)
+                 const actualPort = (this.mcpServer?.address() as { port: number })?.port || port;
+ 
+-                const serverUrl = `http://localhost:${actualPort}/mcp`;
++                const serverUrl = `http://127.0.0.1:${actualPort}/mcp`;
+                 const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || 'no workspace';
+                 const message = `TLA+ MCP server listening at ${serverUrl} for workspace ${workspaceRoot}`;
+ 
+@@ -331,10 +331,10 @@ export class MCPServer implements vscode.Disposable {
+                         (vscode as any).cursor.mcp.registerServer({
+                             name: 'TLA+ MCP Server',
+                             server: {
+-                                url: `http://localhost:${actualPort}/mcp`
++                                url: `http://127.0.0.1:${actualPort}/mcp`
+                             }
+                         });
+-                        console.log(`TLA+ MCP server registered programmatically in Cursor at http://localhost:${actualPort}/mcp`);
++                        console.log(`TLA+ MCP server registered programmatically in Cursor at http://127.0.0.1:${actualPort}/mcp`);
+                         this.mcpOutputChannel.appendLine('TLA+ MCP server registered programmatically in Cursor');
+                     } catch (error) {
+                         console.warn('Failed to register TLA+ MCP server programmatically in Cursor:', error);
+@@ -352,7 +352,7 @@ export class MCPServer implements vscode.Disposable {
+                             if (McpHttpServerDefinition) {
+                                 const serverDef = new McpHttpServerDefinition(
+                                     'TLA+ MCP Server',
+-                                    vscode.Uri.parse(`http://localhost:${actualPort}/mcp`),
++                                    vscode.Uri.parse(`http://127.0.0.1:${actualPort}/mcp`),
+                                     {},
+                                     '1.0.0'
+                                 );
+@@ -364,7 +364,7 @@ export class MCPServer implements vscode.Disposable {
+ 
+                     try {
+                         this.vscodeRegistrationDisposable = (vscode.lm as any).registerMcpServerDefinitionProvider('tlaplus.mcp-server', provider);
+-                        console.log(`TLA+ MCP server registered programmatically with VS Code at http://localhost:${actualPort}/mcp`);
++                        console.log(`TLA+ MCP server registered programmatically with VS Code at http://127.0.0.1:${actualPort}/mcp`);
+                         this.mcpOutputChannel.appendLine('TLA+ MCP server registered programmatically with VS Code');
+                     } catch (error) {
+                         console.warn('Failed to register TLA+ MCP server programmatically in VS Code:', error);
+diff --git a/tests/suite/lm/mcpServer.test.ts b/tests/suite/lm/mcpServer.test.ts
+index 02d4c8b..3db049a 100644
+--- a/tests/suite/lm/mcpServer.test.ts
++++ b/tests/suite/lm/mcpServer.test.ts
+@@ -313,6 +313,41 @@ suite('MCP Server regressions', () => {
+                 prototype.getServer = originalGetServer;
+             }
+         });
++
++        test('The HTTP server binds loopback', async function() {
++            const prototype = MCPServer.prototype as unknown as {
++                getServer(): unknown;
++            };
++            const originalGetServer = prototype.getServer;
++
++            const connectCalls: unknown[] = [];
++            prototype.getServer = () => ({
++                async connect(transport: unknown) {
++                    connectCalls.push(transport);
++                }
++            });
++
++            let server: MCPServer | undefined;
++            try {
++                server = new MCPServer(0);
++                const httpServer = (server as unknown as {
++                    mcpServer?: http.Server;
++                }).mcpServer;
++                assert.ok(httpServer, 'MCP HTTP server should be created');
++
++                await new Promise<void>((resolve) => {
++                    httpServer.once('listening', () => resolve());
++                });
++
++                const address = httpServer.address();
++                const host = typeof address === 'object' && address !== null ? address.address : address;
++                assert.strictEqual(host, '127.0.0.1',
++                    'The MCP server must bind loopback, not every interface');
++            } finally {
++                server?.dispose();
++                prototype.getServer = originalGetServer;
++            }
++        });
+     });
+ 
+     suite('runTLCInMCP respects explicit cfgFile parameter', () => {
+-- 
+2.53.0
+

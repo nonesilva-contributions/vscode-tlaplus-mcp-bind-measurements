@@ -1,0 +1,49 @@
+============================================================
+ TLA+ extension MCP server -- bind and DNS-rebinding exposure
+============================================================
+environment
+  Node v20.20.2
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+  non-loopback IPv4: <bridge-ip>
+
+## 1. shipped: transport {sessionIdGenerator: undefined}, app.listen(port) with no host
+  -> bind :::<port-1> (IPv6)
+  -> POST initialize from non-loopback <bridge-ip> -> HTTP 200
+  -> POST initialize Host and Origin attacker.example -> HTTP 200
+  -> POST initialize to IPv6 loopback ::1 -> HTTP 200
+  -> OPTIONS preflight with Origin attacker.example -> HTTP 200, Access-Control-Allow-Origin: absent
+
+## 2. this PR: app.listen(port, "127.0.0.1"), transport unchanged
+  -> bind 127.0.0.1:<port-2> (IPv4)
+  -> POST initialize from non-loopback <bridge-ip> -> ECONNREFUSED
+  -> POST initialize Host and Origin attacker.example -> HTTP 200
+  -> POST initialize to IPv6 loopback ::1 -> ECONNREFUSED
+
+## 3. follow-up, not in this PR: the same bind plus {enableDnsRebindingProtection: true, allowedHosts, allowedOrigins: []}
+  -> bind 127.0.0.1:<port-3> (IPv4)
+  -> POST initialize from non-loopback <bridge-ip> -> ECONNREFUSED
+  -> POST initialize Host attacker.example, no Origin -> HTTP 403
+  -> POST initialize Host 127.0.0.1:<port-3>, Origin attacker.example -> HTTP 200
+  -> POST initialize Host localhost:<port-3> -> HTTP 200
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  case 1 binds the unspecified address: ::
+ as expected  case 1 answers a request from the network: HTTP 200
+ as expected  case 1 answers a foreign Host and Origin: HTTP 200
+ as expected  case 1 answers on IPv6 loopback: HTTP 200
+ as expected  case 1 answers the browser preflight: HTTP 200
+ as expected  case 1 sends no Access-Control-Allow-Origin: absent
+ as expected  case 2 binds IPv4 loopback: 127.0.0.1
+ as expected  case 2 refuses a request from the network: ECONNREFUSED
+ as expected  case 2 still answers a foreign Host from loopback: HTTP 200
+ as expected  case 2 refuses IPv6 loopback: ECONNREFUSED
+ as expected  case 3 refuses a request from the network: ECONNREFUSED
+ as expected  case 3 refuses a foreign Host with no Origin: HTTP 403
+ as expected  case 3 ignores Origin when the allowlist is empty: HTTP 200
+ as expected  case 3 serves the name the extension advertises: HTTP 200
+============================================================
+
+done
+
+== DONE: measurement complete ==

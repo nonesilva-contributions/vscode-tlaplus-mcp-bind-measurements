@@ -1,0 +1,13 @@
+# Settings of these measurements, in the git config format:
+# https://git-scm.com/docs/git-config#_configuration_file
+# Each "base-commit" lists its versions. Entries are added, never changed.
+
+# The labels of every container name this repository.
+[repository]
+	id = 1411246699
+	source = https://github.com/nonesilva-contributions/vscode-tlaplus-mcp-bind-measurements
+
+[base-commit "c869f2a64289d748d7a063bccc8d3e4945b141e9"]
+	version = v1
+	version = v2
+	version = v3

@@ -1,0 +1,28 @@
+--- c869f2a64289d748d7a063bccc8d3e4945b141e9
++++ v2
+
+@@ src/lm/MCPServer.ts startServer @@
+-call       app.listen(port, …)
++call       app.listen(port, host, …)
+
+@@ src/lm/MCPServer.ts callback of app.listen @@
++call       advertisedHost(host, bound)
+
+@@ src/main.ts activate, now on the path of the host @@
++condition  if typeof mcpPort === 'number' && (mcpPort >= 1024 && mcpPort <= 65535 || mcpPort === 0)
++condition  mcpPort >= 1024 && mcpPort <= 65535 || mcpPort === 0
++condition  vscode.workspace.getConfiguration().get<string>('tlaplus.mcp.host') || 'localhost'
++call       vscode.workspace.getConfiguration(…).get('tlaplus.mcp.host')
+
+@@ src/lm/MCPServer.ts constructor, now on the path of the host @@
++call       this.startServer(port, host)
+
+@@ src/lm/MCPServer.ts advertisedHost, new @@
++condition  if bound.address === '0.0.0.0'
++condition  if bound.address === '::'
++condition  if isIP(configured) === 0
++condition  bound.family === 'IPv6' ?
++return '127.0.0.1'
++return '[::1]'
++return configured
++return bound.family === 'IPv6' ? `[${bound.address}]` : bound.address

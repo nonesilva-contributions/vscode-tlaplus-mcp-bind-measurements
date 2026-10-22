@@ -1,0 +1,28 @@
+============================================================
+ TLA+ extension MCP server -- use case 12
+============================================================
+environment
+  Node v20.20.2
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+
+## a localhost bind leaves the same port free on the other family
+  -> app.listen(port, "localhost") binds ::1:<port>
+  -> another server on 127.0.0.1:<port> -> listening
+  -> POST initialize to http://localhost:<port> -> HTTP 418, the other server
+  -> POST initialize to the bound address ::1 -> HTTP 200
+  -> POST initialize to 127.0.0.1 -> HTTP 418, the other server
+  -> with the shipped bind to ::, another server on 127.0.0.1 -> EADDRINUSE
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 12 the resolver order of Node: verbatim
+ as expected  use case 12 app.listen(port, "localhost") binds: ::1
+ as expected  use case 12 another server binds 127.0.0.1 on the same port: listening
+ as expected  use case 12 a client that dials the name localhost: HTTP 418
+ as expected  use case 12 a client that dials the bound address: HTTP 200
+ as expected  use case 12 a client that dials 127.0.0.1: HTTP 418
+ as expected  use case 12 the shipped bind, app.listen(port) with no host, binds: ::
+ as expected  use case 12 with the shipped bind to ::, another server binds 127.0.0.1 on the same port: EADDRINUSE
+============================================================
+
+done

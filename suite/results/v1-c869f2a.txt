@@ -1,0 +1,849 @@
+>> clone the base commit
+>> apply the patch v1
+>> npm ci
+npm warn deprecated keygrip@1.1.0: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+>> npm run lint
+
+/build/ext/src/debugger/debugging.ts
+  55:1   warning  This line has a length of 138. Maximum allowed is 120  max-len
+  59:35  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  60:28  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  62:35  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+  63:28  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+
+/build/ext/src/declarations/tlaDeclarations.ts
+    1:25  warning  Strings must use singlequote                    quotes
+    2:23  warning  Strings must use singlequote                    quotes
+    3:51  warning  Strings must use singlequote                    quotes
+    4:35  warning  Strings must use singlequote                    quotes
+    6:1   warning  Expected indentation of 4 spaces but found 2    indent
+    6:54  warning  Strings must use singlequote                    quotes
+    7:1   warning  Expected indentation of 8 spaces but found 4    indent
+    8:1   warning  Expected indentation of 8 spaces but found 4    indent
+    9:1   warning  Expected indentation of 4 spaces but found 2    indent
+   16:1   warning  Expected indentation of 4 spaces but found 2    indent
+   17:1   warning  Expected indentation of 4 spaces but found 2    indent
+   19:1   warning  Expected indentation of 4 spaces but found 2    indent
+   20:1   warning  Expected indentation of 8 spaces but found 4    indent
+   21:1   warning  Expected indentation of 4 spaces but found 2    indent
+   22:1   warning  Expected indentation of 4 spaces but found 2    indent
+   23:1   warning  Expected indentation of 8 spaces but found 4    indent
+   25:1   warning  Expected indentation of 4 spaces but found 2    indent
+   26:1   warning  Expected indentation of 8 spaces but found 4    indent
+   27:1   warning  Expected indentation of 4 spaces but found 2    indent
+   28:1   warning  Expected indentation of 4 spaces but found 2    indent
+   35:1   warning  Expected indentation of 4 spaces but found 2    indent
+   36:1   warning  Expected indentation of 4 spaces but found 2    indent
+   38:1   warning  Expected indentation of 4 spaces but found 2    indent
+   39:1   warning  Expected indentation of 4 spaces but found 2    indent
+   40:1   warning  Expected indentation of 8 spaces but found 4    indent
+   41:1   warning  Expected indentation of 4 spaces but found 2    indent
+   43:1   warning  Expected indentation of 4 spaces but found 2    indent
+   44:1   warning  Expected indentation of 4 spaces but found 2    indent
+   45:1   warning  Expected indentation of 8 spaces but found 4    indent
+   46:1   warning  Expected indentation of 4 spaces but found 2    indent
+   48:1   warning  Expected indentation of 4 spaces but found 2    indent
+   51:21  warning  Strings must use singlequote                    quotes
+   51:33  warning  Strings must use singlequote                    quotes
+   59:1   warning  Expected indentation of 4 spaces but found 2    indent
+   60:1   warning  Expected indentation of 4 spaces but found 2    indent
+   62:1   warning  Expected indentation of 4 spaces but found 2    indent
+   63:1   warning  Expected indentation of 4 spaces but found 2    indent
+   64:1   warning  Expected indentation of 8 spaces but found 4    indent
+   65:1   warning  Expected indentation of 8 spaces but found 4    indent
+   66:1   warning  Expected indentation of 4 spaces but found 2    indent
+   67:1   warning  Expected indentation of 4 spaces but found 2    indent
+   69:1   warning  Expected indentation of 4 spaces but found 2    indent
+   69:49  warning  Strings must use singlequote                    quotes
+   70:1   warning  Expected indentation of 4 spaces but found 2    indent
+   70:50  warning  Strings must use singlequote                    quotes
+   72:1   warning  Expected indentation of 4 spaces but found 2    indent
+   73:1   warning  Expected indentation of 8 spaces but found 4    indent
+   74:1   warning  Expected indentation of 4 spaces but found 2    indent
+   76:1   warning  Expected indentation of 4 spaces but found 2    indent
+   77:1   warning  Expected indentation of 8 spaces but found 4    indent
+   78:1   warning  Expected indentation of 12 spaces but found 6   indent
+   78:22  warning  Strings must use singlequote                    quotes
+   79:1   warning  Expected indentation of 8 spaces but found 4    indent
+   80:1   warning  Expected indentation of 8 spaces but found 4    indent
+   81:1   warning  Expected indentation of 12 spaces but found 6   indent
+   82:1   warning  Expected indentation of 8 spaces but found 4    indent
+   83:1   warning  Expected indentation of 8 spaces but found 4    indent
+   83:12  warning  Strings must use singlequote                    quotes
+   84:1   warning  Expected indentation of 4 spaces but found 2    indent
+   86:1   warning  Expected indentation of 4 spaces but found 2    indent
+   87:1   warning  Expected indentation of 8 spaces but found 4    indent
+   87:21  warning  Strings must use singlequote                    quotes
+   88:1   warning  Expected indentation of 4 spaces but found 2    indent
+   89:1   warning  Expected indentation of 4 spaces but found 2    indent
+   90:1   warning  Expected indentation of 8 spaces but found 4    indent
+   91:1   warning  Expected indentation of 4 spaces but found 2    indent
+   92:1   warning  Expected indentation of 4 spaces but found 2    indent
+   92:10  warning  Strings must use singlequote                    quotes
+   96:1   warning  Expected indentation of 4 spaces but found 2    indent
+   97:1   warning  Expected indentation of 4 spaces but found 2    indent
+   99:1   warning  Expected indentation of 4 spaces but found 2    indent
+  100:1   warning  Expected indentation of 8 spaces but found 4    indent
+  101:1   warning  Expected indentation of 8 spaces but found 4    indent
+  102:1   warning  Expected indentation of 12 spaces but found 6   indent
+  103:1   warning  Expected indentation of 8 spaces but found 4    indent
+  104:1   warning  Expected indentation of 4 spaces but found 2    indent
+  105:1   warning  Expected indentation of 4 spaces but found 2    indent
+  109:1   warning  Expected indentation of 4 spaces but found 2    indent
+  113:1   warning  Expected indentation of 4 spaces but found 2    indent
+  114:1   warning  Expected indentation of 4 spaces but found 2    indent
+  116:1   warning  Expected indentation of 4 spaces but found 2    indent
+  117:1   warning  Expected indentation of 4 spaces but found 2    indent
+  118:1   warning  Expected indentation of 8 spaces but found 4    indent
+  119:1   warning  Expected indentation of 8 spaces but found 4    indent
+  120:1   warning  Expected indentation of 12 spaces but found 6   indent
+  121:1   warning  Expected indentation of 8 spaces but found 4    indent
+  122:1   warning  Expected indentation of 8 spaces but found 4    indent
+  123:1   warning  Expected indentation of 4 spaces but found 2    indent
+  124:1   warning  Expected indentation of 4 spaces but found 2    indent
+  128:1   warning  Expected indentation of 4 spaces but found 2    indent
+  129:1   warning  Expected indentation of 4 spaces but found 2    indent
+  131:1   warning  Expected indentation of 4 spaces but found 2    indent
+  132:1   warning  Expected indentation of 4 spaces but found 2    indent
+  133:1   warning  Expected indentation of 4 spaces but found 2    indent
+  134:1   warning  Expected indentation of 4 spaces but found 2    indent
+  138:1   warning  Expected indentation of 4 spaces but found 2    indent
+  139:1   warning  Expected indentation of 4 spaces but found 2    indent
+  141:1   warning  Expected indentation of 4 spaces but found 2    indent
+  142:1   warning  Expected indentation of 4 spaces but found 2    indent
+  143:1   warning  Expected indentation of 8 spaces but found 4    indent
+  144:1   warning  Expected indentation of 4 spaces but found 2    indent
+  146:1   warning  Expected indentation of 4 spaces but found 2    indent
+  147:1   warning  Expected indentation of 4 spaces but found 2    indent
+  148:1   warning  Expected indentation of 4 spaces but found 2    indent
+  151:1   warning  Expected indentation of 4 spaces but found 2    indent
+  152:1   warning  Expected indentation of 4 spaces but found 2    indent
+  153:1   warning  Expected indentation of 8 spaces but found 4    indent
+  154:1   warning  Expected indentation of 4 spaces but found 2    indent
+  155:1   warning  Expected indentation of 4 spaces but found 2    indent
+  156:1   warning  Expected indentation of 8 spaces but found 4    indent
+  157:1   warning  Expected indentation of 4 spaces but found 2    indent
+  159:1   warning  Expected indentation of 4 spaces but found 2    indent
+  160:1   warning  Expected indentation of 4 spaces but found 2    indent
+  161:1   warning  Expected indentation of 4 spaces but found 2    indent
+  163:1   warning  Expected indentation of 4 spaces but found 2    indent
+  163:58  warning  Strings must use singlequote                    quotes
+  164:1   warning  Expected indentation of 4 spaces but found 2    indent
+  165:1   warning  Expected indentation of 8 spaces but found 4    indent
+  166:1   warning  Expected indentation of 4 spaces but found 2    indent
+  168:1   warning  Expected indentation of 4 spaces but found 2    indent
+  169:1   warning  Expected indentation of 8 spaces but found 4    indent
+  170:1   warning  Expected indentation of 4 spaces but found 2    indent
+  172:1   warning  Expected indentation of 4 spaces but found 2    indent
+  173:1   warning  Expected indentation of 8 spaces but found 4    indent
+  174:1   warning  Expected indentation of 8 spaces but found 4    indent
+  175:1   warning  Expected indentation of 4 spaces but found 2    indent
+  179:1   warning  Expected indentation of 4 spaces but found 2    indent
+  180:1   warning  Expected indentation of 8 spaces but found 4    indent
+  180:35  warning  Strings must use singlequote                    quotes
+  181:1   warning  Expected indentation of 8 spaces but found 4    indent
+  181:27  warning  Strings must use singlequote                    quotes
+  185:1   warning  Expected indentation of 4 spaces but found 2    indent
+  186:1   warning  Expected indentation of 4 spaces but found 2    indent
+  186:12  warning  Strings must use singlequote                    quotes
+  186:24  warning  Strings must use singlequote                    quotes
+  188:1   warning  Expected indentation of 4 spaces but found 2    indent
+  189:1   warning  Expected indentation of 4 spaces but found 2    indent
+  190:1   warning  Expected indentation of 8 spaces but found 4    indent
+  191:1   warning  Expected indentation of 8 spaces but found 4    indent
+  192:1   warning  Expected indentation of 4 spaces but found 2    indent
+  193:1   warning  Expected indentation of 8 spaces but found 4    indent
+  194:1   warning  Expected indentation of 4 spaces but found 2    indent
+  196:1   warning  Expected indentation of 4 spaces but found 2    indent
+  197:1   warning  Expected indentation of 4 spaces but found 2    indent
+  197:19  warning  Strings must use singlequote                    quotes
+  198:1   warning  Expected indentation of 8 spaces but found 4    indent
+  198:51  warning  Strings must use singlequote                    quotes
+  199:1   warning  Expected indentation of 8 spaces but found 4    indent
+  200:1   warning  Expected indentation of 12 spaces but found 6   indent
+  201:1   warning  Expected indentation of 8 spaces but found 4    indent
+  202:1   warning  Expected indentation of 4 spaces but found 2    indent
+  204:1   warning  Expected indentation of 4 spaces but found 2    indent
+  205:1   warning  Expected indentation of 8 spaces but found 4    indent
+  205:12  warning  Strings must use singlequote                    quotes
+  206:1   warning  Expected indentation of 8 spaces but found 4    indent
+  207:1   warning  Expected indentation of 8 spaces but found 4    indent
+  208:1   warning  Expected indentation of 12 spaces but found 6   indent
+  209:1   warning  Expected indentation of 12 spaces but found 6   indent
+  210:1   warning  Expected indentation of 8 spaces but found 4    indent
+  211:1   warning  Expected indentation of 8 spaces but found 4    indent
+  215:1   warning  Expected indentation of 4 spaces but found 2    indent
+  217:1   warning  Expected indentation of 4 spaces but found 2    indent
+  218:1   warning  Expected indentation of 4 spaces but found 2    indent
+  219:1   warning  Expected indentation of 4 spaces but found 2    indent
+  221:1   warning  Expected indentation of 4 spaces but found 2    indent
+  221:36  warning  Strings must use singlequote                    quotes
+  221:48  warning  Strings must use singlequote                    quotes
+  222:1   warning  Expected indentation of 8 spaces but found 4    indent
+  222:50  warning  Strings must use singlequote                    quotes
+  223:1   warning  Expected indentation of 8 spaces but found 4    indent
+  224:1   warning  Expected indentation of 8 spaces but found 4    indent
+  225:1   warning  Expected indentation of 12 spaces but found 6   indent
+  226:1   warning  Expected indentation of 12 spaces but found 6   indent
+  227:1   warning  Expected indentation of 12 spaces but found 6   indent
+  228:1   warning  Expected indentation of 12 spaces but found 6   indent
+  229:1   warning  Expected indentation of 16 spaces but found 8   indent
+  230:1   warning  Expected indentation of 12 spaces but found 6   indent
+  231:1   warning  Expected indentation of 12 spaces but found 6   indent
+  232:1   warning  Expected indentation of 12 spaces but found 6   indent
+  233:1   warning  Expected indentation of 12 spaces but found 6   indent
+  234:1   warning  Expected indentation of 12 spaces but found 6   indent
+  235:1   warning  Expected indentation of 16 spaces but found 8   indent
+  236:1   warning  Expected indentation of 12 spaces but found 6   indent
+  237:1   warning  Expected indentation of 8 spaces but found 4    indent
+  238:1   warning  Expected indentation of 4 spaces but found 2    indent
+  240:1   warning  Expected indentation of 4 spaces but found 2    indent
+  240:18  warning  Strings must use singlequote                    quotes
+  241:1   warning  Expected indentation of 4 spaces but found 2    indent
+  241:18  warning  Strings must use singlequote                    quotes
+  243:1   warning  Expected indentation of 4 spaces but found 2    indent
+  247:1   warning  Expected indentation of 4 spaces but found 2    indent
+  248:1   warning  Expected indentation of 4 spaces but found 2    indent
+  250:1   warning  Expected indentation of 4 spaces but found 2    indent
+  251:1   warning  Expected indentation of 8 spaces but found 4    indent
+  252:1   warning  Expected indentation of 8 spaces but found 4    indent
+  253:1   warning  Expected indentation of 12 spaces but found 6   indent
+  254:1   warning  Expected indentation of 8 spaces but found 4    indent
+  255:1   warning  Expected indentation of 8 spaces but found 4    indent
+  255:16  warning  Strings must use singlequote                    quotes
+  256:1   warning  Expected indentation of 12 spaces but found 6   indent
+  257:1   warning  Expected indentation of 8 spaces but found 4    indent
+  258:1   warning  Expected indentation of 8 spaces but found 4    indent
+  258:16  warning  Strings must use singlequote                    quotes
+  259:1   warning  Expected indentation of 12 spaces but found 6   indent
+  259:53  warning  Strings must use singlequote                    quotes
+  260:1   warning  Expected indentation of 16 spaces but found 8   indent
+  261:1   warning  Expected indentation of 12 spaces but found 6   indent
+  262:1   warning  Expected indentation of 8 spaces but found 4    indent
+  263:1   warning  Expected indentation of 8 spaces but found 4    indent
+  264:1   warning  Expected indentation of 12 spaces but found 6   indent
+  264:15  warning  Strings must use singlequote                    quotes
+  264:29  warning  Strings must use singlequote                    quotes
+  266:71  warning  Strings must use singlequote                    quotes
+  267:1   warning  Expected indentation of 8 spaces but found 4    indent
+  268:1   warning  Expected indentation of 12 spaces but found 6   indent
+  269:1   warning  Expected indentation of 8 spaces but found 4    indent
+  270:1   warning  Expected indentation of 4 spaces but found 2    indent
+  271:1   warning  Expected indentation of 4 spaces but found 2    indent
+  278:1   warning  Expected indentation of 4 spaces but found 2    indent
+  279:1   warning  Expected indentation of 4 spaces but found 2    indent
+  281:1   warning  Expected indentation of 4 spaces but found 2    indent
+  283:1   warning  Expected indentation of 4 spaces but found 2    indent
+  284:1   warning  Expected indentation of 4 spaces but found 2    indent
+  285:1   warning  Expected indentation of 4 spaces but found 2    indent
+  286:1   warning  Expected indentation of 4 spaces but found 2    indent
+  288:1   warning  Expected indentation of 4 spaces but found 2    indent
+  289:1   warning  Expected indentation of 8 spaces but found 4    indent
+  290:1   warning  Expected indentation of 8 spaces but found 4    indent
+  291:1   warning  Expected indentation of 4 spaces but found 2    indent
+  293:1   warning  Expected indentation of 4 spaces but found 2    indent
+  295:1   warning  Expected indentation of 4 spaces but found 2    indent
+  296:1   warning  Expected indentation of 8 spaces but found 4    indent
+  297:1   warning  Expected indentation of 8 spaces but found 4    indent
+  298:1   warning  Expected indentation of 8 spaces but found 4    indent
+  299:1   warning  Expected indentation of 8 spaces but found 4    indent
+  300:1   warning  Expected indentation of 8 spaces but found 4    indent
+  301:1   warning  Expected indentation of 4 spaces but found 2    indent
+  303:1   warning  Expected indentation of 4 spaces but found 2    indent
+  304:1   warning  Expected indentation of 8 spaces but found 4    indent
+  305:1   warning  Expected indentation of 8 spaces but found 4    indent
+  306:1   warning  Expected indentation of 12 spaces but found 6   indent
+  307:1   warning  Expected indentation of 8 spaces but found 4    indent
+  308:1   warning  Expected indentation of 4 spaces but found 2    indent
+  310:1   warning  Expected indentation of 4 spaces but found 2    indent
+  311:1   warning  Expected indentation of 8 spaces but found 4    indent
+  312:1   warning  Expected indentation of 8 spaces but found 4    indent
+  313:1   warning  Expected indentation of 4 spaces but found 2    indent
+  314:1   warning  Expected indentation of 4 spaces but found 2    indent
+  315:1   warning  Expected indentation of 8 spaces but found 4    indent
+  316:1   warning  Expected indentation of 4 spaces but found 2    indent
+  318:1   warning  Expected indentation of 4 spaces but found 2    indent
+  322:1   warning  Expected indentation of 4 spaces but found 2    indent
+  323:1   warning  Expected indentation of 4 spaces but found 2    indent
+  325:1   warning  Expected indentation of 4 spaces but found 2    indent
+  326:1   warning  Expected indentation of 4 spaces but found 2    indent
+  327:1   warning  Expected indentation of 8 spaces but found 4    indent
+  328:1   warning  Expected indentation of 8 spaces but found 4    indent
+  329:1   warning  Expected indentation of 12 spaces but found 6   indent
+  330:1   warning  Expected indentation of 16 spaces but found 8   indent
+  331:1   warning  Expected indentation of 16 spaces but found 8   indent
+  332:1   warning  Expected indentation of 16 spaces but found 8   indent
+  333:1   warning  Expected indentation of 12 spaces but found 6   indent
+  334:1   warning  Expected indentation of 12 spaces but found 6   indent
+  335:1   warning  Expected indentation of 16 spaces but found 8   indent
+  336:1   warning  Expected indentation of 12 spaces but found 6   indent
+  337:1   warning  Expected indentation of 8 spaces but found 4    indent
+  338:1   warning  Expected indentation of 4 spaces but found 2    indent
+  339:1   warning  Expected indentation of 4 spaces but found 2    indent
+  343:1   warning  Expected indentation of 4 spaces but found 2    indent
+  344:1   warning  Expected indentation of 4 spaces but found 2    indent
+  345:1   warning  Expected indentation of 4 spaces but found 2    indent
+  347:1   warning  Expected indentation of 4 spaces but found 2    indent
+  348:1   warning  Expected indentation of 8 spaces but found 4    indent
+  349:1   warning  Expected indentation of 4 spaces but found 2    indent
+  351:1   warning  Expected indentation of 4 spaces but found 2    indent
+  352:1   warning  Expected indentation of 8 spaces but found 4    indent
+  352:29  warning  Strings must use singlequote                    quotes
+  352:65  warning  Strings must use singlequote                    quotes
+  353:1   warning  Expected indentation of 12 spaces but found 6   indent
+  353:49  warning  Strings must use singlequote                    quotes
+  354:1   warning  Expected indentation of 12 spaces but found 6   indent
+  355:1   warning  Expected indentation of 16 spaces but found 8   indent
+  356:1   warning  Expected indentation of 12 spaces but found 6   indent
+  358:1   warning  Expected indentation of 12 spaces but found 6   indent
+  359:1   warning  Expected indentation of 12 spaces but found 6   indent
+  359:52  warning  Strings must use singlequote                    quotes
+  360:1   warning  Expected indentation of 16 spaces but found 8   indent
+  361:1   warning  Expected indentation of 16 spaces but found 8   indent
+  362:1   warning  Expected indentation of 12 spaces but found 6   indent
+  362:56  warning  Strings must use singlequote                    quotes
+  363:1   warning  Expected indentation of 12 spaces but found 6   indent
+  365:1   warning  Expected indentation of 12 spaces but found 6   indent
+  366:1   warning  Expected indentation of 12 spaces but found 6   indent
+  366:31  warning  Strings must use singlequote                    quotes
+  367:1   warning  Expected indentation of 16 spaces but found 8   indent
+  368:1   warning  Expected indentation of 16 spaces but found 8   indent
+  368:72  warning  Strings must use singlequote                    quotes
+  369:1   warning  Expected indentation of 16 spaces but found 8   indent
+  370:1   warning  Expected indentation of 12 spaces but found 6   indent
+  371:1   warning  Expected indentation of 16 spaces but found 8   indent
+  371:44  warning  Strings must use singlequote                    quotes
+  372:1   warning  Expected indentation of 16 spaces but found 8   indent
+  373:1   warning  Expected indentation of 20 spaces but found 10  indent
+  374:1   warning  Expected indentation of 16 spaces but found 8   indent
+  375:1   warning  Expected indentation of 20 spaces but found 10  indent
+  376:1   warning  Expected indentation of 16 spaces but found 8   indent
+  377:1   warning  Expected indentation of 12 spaces but found 6   indent
+  379:1   warning  Expected indentation of 12 spaces but found 6   indent
+  380:1   warning  Expected indentation of 16 spaces but found 8   indent
+  381:1   warning  Expected indentation of 12 spaces but found 6   indent
+  383:1   warning  Expected indentation of 12 spaces but found 6   indent
+  384:1   warning  Expected indentation of 12 spaces but found 6   indent
+  385:1   warning  Expected indentation of 16 spaces but found 8   indent
+  386:1   warning  Expected indentation of 16 spaces but found 8   indent
+  387:1   warning  Expected indentation of 12 spaces but found 6   indent
+  388:1   warning  Expected indentation of 16 spaces but found 8   indent
+  389:1   warning  Expected indentation of 12 spaces but found 6   indent
+  390:1   warning  Expected indentation of 8 spaces but found 4    indent
+  392:1   warning  Expected indentation of 8 spaces but found 4    indent
+  393:1   warning  Expected indentation of 12 spaces but found 6   indent
+  394:1   warning  Expected indentation of 8 spaces but found 4    indent
+  395:1   warning  Expected indentation of 8 spaces but found 4    indent
+  396:1   warning  Expected indentation of 12 spaces but found 6   indent
+  397:1   warning  Expected indentation of 12 spaces but found 6   indent
+  398:1   warning  Expected indentation of 8 spaces but found 4    indent
+  399:1   warning  Expected indentation of 12 spaces but found 6   indent
+  400:1   warning  Expected indentation of 12 spaces but found 6   indent
+  401:1   warning  Expected indentation of 8 spaces but found 4    indent
+  402:1   warning  Expected indentation of 8 spaces but found 4    indent
+  403:1   warning  Expected indentation of 8 spaces but found 4    indent
+  404:1   warning  Expected indentation of 4 spaces but found 2    indent
+  406:1   warning  Expected indentation of 4 spaces but found 2    indent
+  407:1   warning  Expected indentation of 4 spaces but found 2    indent
+  411:1   warning  Expected indentation of 4 spaces but found 2    indent
+  412:1   warning  Expected indentation of 4 spaces but found 2    indent
+  414:1   warning  Expected indentation of 4 spaces but found 2    indent
+  414:28  warning  Strings must use singlequote                    quotes
+  415:1   warning  Expected indentation of 8 spaces but found 4    indent
+  416:1   warning  Expected indentation of 4 spaces but found 2    indent
+  417:1   warning  Expected indentation of 4 spaces but found 2    indent
+  418:1   warning  Expected indentation of 4 spaces but found 2    indent
+  419:1   warning  Expected indentation of 8 spaces but found 4    indent
+  420:1   warning  Expected indentation of 4 spaces but found 2    indent
+  422:1   warning  Expected indentation of 4 spaces but found 2    indent
+  423:1   warning  Expected indentation of 8 spaces but found 4    indent
+  424:1   warning  Expected indentation of 4 spaces but found 2    indent
+  425:1   warning  Expected indentation of 8 spaces but found 4    indent
+  426:1   warning  Expected indentation of 4 spaces but found 2    indent
+  428:1   warning  Expected indentation of 4 spaces but found 2    indent
+  429:1   warning  Expected indentation of 8 spaces but found 4    indent
+  430:1   warning  Expected indentation of 12 spaces but found 6   indent
+  430:7   warning  Strings must use singlequote                    quotes
+  431:1   warning  Expected indentation of 12 spaces but found 6   indent
+  432:1   warning  Expected indentation of 8 spaces but found 4    indent
+  433:1   warning  Expected indentation of 4 spaces but found 2    indent
+  435:1   warning  Expected indentation of 4 spaces but found 2    indent
+  439:1   warning  Expected indentation of 4 spaces but found 2    indent
+  440:1   warning  Expected indentation of 4 spaces but found 2    indent
+  441:1   warning  Expected indentation of 4 spaces but found 2    indent
+  443:1   warning  Expected indentation of 4 spaces but found 2    indent
+  444:1   warning  Expected indentation of 4 spaces but found 2    indent
+  445:1   warning  Expected indentation of 4 spaces but found 2    indent
+  446:1   warning  Expected indentation of 4 spaces but found 2    indent
+  446:65  warning  Strings must use singlequote                    quotes
+  447:1   warning  Expected indentation of 4 spaces but found 2    indent
+  448:1   warning  Expected indentation of 8 spaces but found 4    indent
+  449:1   warning  Expected indentation of 8 spaces but found 4    indent
+  449:5   warning  Strings must use singlequote                    quotes
+  450:1   warning  Expected indentation of 4 spaces but found 2    indent
+  452:1   warning  Expected indentation of 4 spaces but found 2    indent
+  453:1   warning  Expected indentation of 4 spaces but found 2    indent
+  454:1   warning  Expected indentation of 4 spaces but found 2    indent
+  455:1   warning  Expected indentation of 8 spaces but found 4    indent
+  456:1   warning  Expected indentation of 4 spaces but found 2    indent
+  458:1   warning  Expected indentation of 4 spaces but found 2    indent
+  458:41  warning  Strings must use singlequote                    quotes
+  459:1   warning  Expected indentation of 4 spaces but found 2    indent
+  460:1   warning  Expected indentation of 4 spaces but found 2    indent
+  461:1   warning  Expected indentation of 4 spaces but found 2    indent
+  462:1   warning  Expected indentation of 4 spaces but found 2    indent
+  463:1   warning  Expected indentation of 4 spaces but found 2    indent
+  470:1   warning  Expected indentation of 4 spaces but found 2    indent
+  471:1   warning  Expected indentation of 8 spaces but found 4    indent
+  472:48  warning  Strings must use singlequote                    quotes
+  473:1   warning  Expected indentation of 4 spaces but found 2    indent
+  474:1   warning  Expected indentation of 8 spaces but found 4    indent
+  475:1   warning  Expected indentation of 4 spaces but found 2    indent
+  476:1   warning  Expected indentation of 4 spaces but found 2    indent
+  477:1   warning  Expected indentation of 4 spaces but found 2    indent
+  478:1   warning  Expected indentation of 8 spaces but found 4    indent
+  479:74  warning  Strings must use singlequote                    quotes
+  480:1   warning  Expected indentation of 4 spaces but found 2    indent
+  481:1   warning  Expected indentation of 8 spaces but found 4    indent
+  482:1   warning  Expected indentation of 4 spaces but found 2    indent
+  483:1   warning  Expected indentation of 4 spaces but found 2    indent
+  490:1   warning  Expected indentation of 4 spaces but found 2    indent
+  491:1   warning  Expected indentation of 4 spaces but found 2    indent
+  492:1   warning  Expected indentation of 8 spaces but found 4    indent
+  492:21  warning  Strings must use singlequote                    quotes
+  493:1   warning  Expected indentation of 12 spaces but found 6   indent
+  494:1   warning  Expected indentation of 8 spaces but found 4    indent
+  494:28  warning  Strings must use singlequote                    quotes
+  495:1   warning  Expected indentation of 12 spaces but found 6   indent
+  496:1   warning  Expected indentation of 12 spaces but found 6   indent
+  497:1   warning  Expected indentation of 16 spaces but found 8   indent
+  498:1   warning  Expected indentation of 12 spaces but found 6   indent
+  499:1   warning  Expected indentation of 8 spaces but found 4    indent
+  500:1   warning  Expected indentation of 4 spaces but found 2    indent
+  501:1   warning  Expected indentation of 4 spaces but found 2    indent
+  508:1   warning  Expected indentation of 4 spaces but found 2    indent
+  509:1   warning  Expected indentation of 4 spaces but found 2    indent
+  510:1   warning  Expected indentation of 4 spaces but found 2    indent
+  512:1   warning  Expected indentation of 4 spaces but found 2    indent
+  513:1   warning  Expected indentation of 4 spaces but found 2    indent
+  514:1   warning  Expected indentation of 8 spaces but found 4    indent
+  515:1   warning  Expected indentation of 4 spaces but found 2    indent
+  517:1   warning  Expected indentation of 4 spaces but found 2    indent
+  518:1   warning  Expected indentation of 4 spaces but found 2    indent
+  519:1   warning  Expected indentation of 4 spaces but found 2    indent
+  520:1   warning  Expected indentation of 8 spaces but found 4    indent
+  521:1   warning  Expected indentation of 4 spaces but found 2    indent
+  523:1   warning  Expected indentation of 4 spaces but found 2    indent
+  524:1   warning  Expected indentation of 4 spaces but found 2    indent
+  525:1   warning  Expected indentation of 8 spaces but found 4    indent
+  526:1   warning  Expected indentation of 8 spaces but found 4    indent
+  527:1   warning  Expected indentation of 12 spaces but found 6   indent
+  528:1   warning  Expected indentation of 12 spaces but found 6   indent
+  529:1   warning  Expected indentation of 12 spaces but found 6   indent
+  530:1   warning  Expected indentation of 16 spaces but found 8   indent
+  531:1   warning  Expected indentation of 12 spaces but found 6   indent
+  532:1   warning  Expected indentation of 8 spaces but found 4    indent
+  533:1   warning  Expected indentation of 4 spaces but found 2    indent
+  535:1   warning  Expected indentation of 4 spaces but found 2    indent
+  542:1   warning  Expected indentation of 4 spaces but found 2    indent
+  543:1   warning  Expected indentation of 4 spaces but found 2    indent
+  544:1   warning  Expected indentation of 4 spaces but found 2    indent
+  546:1   warning  Expected indentation of 4 spaces but found 2    indent
+  547:1   warning  Expected indentation of 4 spaces but found 2    indent
+  548:1   warning  Expected indentation of 8 spaces but found 4    indent
+  549:1   warning  Expected indentation of 4 spaces but found 2    indent
+  551:1   warning  Expected indentation of 4 spaces but found 2    indent
+  553:1   warning  Expected indentation of 4 spaces but found 2    indent
+  554:1   warning  Expected indentation of 4 spaces but found 2    indent
+  555:1   warning  Expected indentation of 8 spaces but found 4    indent
+  556:1   warning  Expected indentation of 4 spaces but found 2    indent
+  558:1   warning  Expected indentation of 4 spaces but found 2    indent
+  559:1   warning  Expected indentation of 4 spaces but found 2    indent
+  560:1   warning  Expected indentation of 8 spaces but found 4    indent
+  561:1   warning  Expected indentation of 4 spaces but found 2    indent
+  563:1   warning  Expected indentation of 4 spaces but found 2    indent
+  564:1   warning  Expected indentation of 4 spaces but found 2    indent
+  565:1   warning  Expected indentation of 4 spaces but found 2    indent
+  566:1   warning  Expected indentation of 8 spaces but found 4    indent
+  567:1   warning  Expected indentation of 8 spaces but found 4    indent
+  569:1   warning  Expected indentation of 4 spaces but found 2    indent
+  570:1   warning  Expected indentation of 4 spaces but found 2    indent
+  571:1   warning  Expected indentation of 8 spaces but found 4    indent
+  572:1   warning  Expected indentation of 12 spaces but found 6   indent
+  574:1   warning  Expected indentation of 8 spaces but found 4    indent
+  575:1   warning  Expected indentation of 12 spaces but found 6   indent
+  576:1   warning  Expected indentation of 8 spaces but found 4    indent
+  577:1   warning  Expected indentation of 4 spaces but found 2    indent
+  578:1   warning  Expected indentation of 4 spaces but found 2    indent
+  585:1   warning  Expected indentation of 4 spaces but found 2    indent
+  586:1   warning  Expected indentation of 4 spaces but found 2    indent
+  587:1   warning  Expected indentation of 4 spaces but found 2    indent
+  589:1   warning  Expected indentation of 4 spaces but found 2    indent
+  590:1   warning  Expected indentation of 4 spaces but found 2    indent
+  591:1   warning  Expected indentation of 4 spaces but found 2    indent
+  592:1   warning  Expected indentation of 8 spaces but found 4    indent
+  593:1   warning  Expected indentation of 8 spaces but found 4    indent
+  594:1   warning  Expected indentation of 12 spaces but found 6   indent
+  595:1   warning  Expected indentation of 16 spaces but found 8   indent
+  596:1   warning  Expected indentation of 16 spaces but found 8   indent
+  597:1   warning  Expected indentation of 16 spaces but found 8   indent
+  598:1   warning  Expected indentation of 12 spaces but found 6   indent
+  599:1   warning  Expected indentation of 12 spaces but found 6   indent
+  600:1   warning  Expected indentation of 16 spaces but found 8   indent
+  601:1   warning  Expected indentation of 12 spaces but found 6   indent
+  602:1   warning  Expected indentation of 12 spaces but found 6   indent
+  603:1   warning  Expected indentation of 12 spaces but found 6   indent
+  604:1   warning  Expected indentation of 8 spaces but found 4    indent
+  605:1   warning  Expected indentation of 4 spaces but found 2    indent
+  607:1   warning  Expected indentation of 4 spaces but found 2    indent
+  608:1   warning  Expected indentation of 4 spaces but found 2    indent
+  610:1   warning  Expected indentation of 4 spaces but found 2    indent
+  611:1   warning  Expected indentation of 8 spaces but found 4    indent
+  612:1   warning  Expected indentation of 8 spaces but found 4    indent
+  613:1   warning  Expected indentation of 12 spaces but found 6   indent
+  614:1   warning  Expected indentation of 12 spaces but found 6   indent
+  615:1   warning  Expected indentation of 8 spaces but found 4    indent
+  616:1   warning  Expected indentation of 4 spaces but found 2    indent
+  618:1   warning  Expected indentation of 4 spaces but found 2    indent
+  619:1   warning  Expected indentation of 4 spaces but found 2    indent
+  620:1   warning  Expected indentation of 4 spaces but found 2    indent
+  621:1   warning  Expected indentation of 8 spaces but found 4    indent
+  622:1   warning  Expected indentation of 8 spaces but found 4    indent
+  624:1   warning  Expected indentation of 4 spaces but found 2    indent
+  625:1   warning  Expected indentation of 8 spaces but found 4    indent
+  626:1   warning  Expected indentation of 4 spaces but found 2    indent
+  628:1   warning  Expected indentation of 4 spaces but found 2    indent
+  629:1   warning  Expected indentation of 4 spaces but found 2    indent
+  630:1   warning  Expected indentation of 8 spaces but found 4    indent
+  631:1   warning  Expected indentation of 4 spaces but found 2    indent
+  633:1   warning  Expected indentation of 4 spaces but found 2    indent
+  634:1   warning  Expected indentation of 4 spaces but found 2    indent
+  635:1   warning  Expected indentation of 8 spaces but found 4    indent
+  636:1   warning  Expected indentation of 4 spaces but found 2    indent
+  638:1   warning  Expected indentation of 4 spaces but found 2    indent
+  639:1   warning  Expected indentation of 4 spaces but found 2    indent
+  640:1   warning  Expected indentation of 8 spaces but found 4    indent
+  641:1   warning  Expected indentation of 8 spaces but found 4    indent
+  642:1   warning  Expected indentation of 12 spaces but found 6   indent
+  643:1   warning  Expected indentation of 8 spaces but found 4    indent
+  644:1   warning  Expected indentation of 8 spaces but found 4    indent
+  645:1   warning  Expected indentation of 12 spaces but found 6   indent
+  646:1   warning  Expected indentation of 12 spaces but found 6   indent
+  647:1   warning  Expected indentation of 12 spaces but found 6   indent
+  648:1   warning  Expected indentation of 8 spaces but found 4    indent
+  649:1   warning  Expected indentation of 8 spaces but found 4    indent
+  650:1   warning  Expected indentation of 12 spaces but found 6   indent
+  651:1   warning  Expected indentation of 8 spaces but found 4    indent
+  652:1   warning  Expected indentation of 4 spaces but found 2    indent
+  654:1   warning  Expected indentation of 4 spaces but found 2    indent
+  658:1   warning  Expected indentation of 4 spaces but found 2    indent
+  660:1   warning  Expected indentation of 4 spaces but found 2    indent
+  661:1   warning  Expected indentation of 8 spaces but found 4    indent
+  662:1   warning  Expected indentation of 8 spaces but found 4    indent
+  663:1   warning  Expected indentation of 8 spaces but found 4    indent
+  664:1   warning  Expected indentation of 4 spaces but found 2    indent
+  665:1   warning  Expected indentation of 8 spaces but found 4    indent
+  666:1   warning  Expected indentation of 4 spaces but found 2    indent
+  670:1   warning  Expected indentation of 4 spaces but found 2    indent
+  672:1   warning  Expected indentation of 4 spaces but found 2    indent
+  673:1   warning  Expected indentation of 8 spaces but found 4    indent
+  674:1   warning  Expected indentation of 8 spaces but found 4    indent
+  675:1   warning  Expected indentation of 8 spaces but found 4    indent
+  676:1   warning  Expected indentation of 4 spaces but found 2    indent
+  677:1   warning  Expected indentation of 8 spaces but found 4    indent
+  678:1   warning  Expected indentation of 4 spaces but found 2    indent
+  682:1   warning  Expected indentation of 4 spaces but found 2    indent
+  683:1   warning  Expected indentation of 4 spaces but found 2    indent
+
+/build/ext/src/lm/MCPServer.ts
+   380:1   warning  This line has a length of 146. Maximum allowed is 120  max-len
+   384:44  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   386:36  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   396:1   warning  This line has a length of 132. Maximum allowed is 120  max-len
+   402:48  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   406:72  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   421:1   warning  This line has a length of 147. Maximum allowed is 120  max-len
+   421:75  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   426:1   warning  This line has a length of 133. Maximum allowed is 120  max-len
+   451:36  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   453:28  warning  Unexpected any. Specify a different type               @typescript-eslint/no-explicit-any
+   482:1   warning  Trailing spaces not allowed                            no-trailing-spaces
+   811:1   warning  This line has a length of 264. Maximum allowed is 120  max-len
+   812:1   warning  This line has a length of 185. Maximum allowed is 120  max-len
+   845:1   warning  This line has a length of 157. Maximum allowed is 120  max-len
+   846:1   warning  This line has a length of 151. Maximum allowed is 120  max-len
+  1179:1   warning  This line has a length of 152. Maximum allowed is 120  max-len
+  1182:1   warning  This line has a length of 135. Maximum allowed is 120  max-len
+  1208:1   warning  This line has a length of 129. Maximum allowed is 120  max-len
+  1217:1   warning  This line has a length of 130. Maximum allowed is 120  max-len
+  1253:1   warning  This line has a length of 129. Maximum allowed is 120  max-len
+  1353:1   warning  This line has a length of 125. Maximum allowed is 120  max-len
+  1357:1   warning  This line has a length of 133. Maximum allowed is 120  max-len
+  1368:1   warning  This line has a length of 189. Maximum allowed is 120  max-len
+  1373:1   warning  This line has a length of 133. Maximum allowed is 120  max-len
+  1748:44  warning  Forbidden non-null assertion                           @typescript-eslint/no-non-null-assertion
+
+/build/ext/src/main.ts
+   10:1  warning  This line has a length of 123. Maximum allowed is 120  max-len
+  286:1  warning  Trailing spaces not allowed                            no-trailing-spaces
+
+/build/ext/src/panels/checkResultView.ts
+  165:1  warning  Trailing spaces not allowed                            no-trailing-spaces
+  175:1  warning  Trailing spaces not allowed                            no-trailing-spaces
+  183:1  warning  Trailing spaces not allowed                            no-trailing-spaces
+  187:1  warning  Trailing spaces not allowed                            no-trailing-spaces
+  190:1  warning  Trailing spaces not allowed                            no-trailing-spaces
+  225:1  warning  This line has a length of 124. Maximum allowed is 120  max-len
+  231:1  warning  This line has a length of 121. Maximum allowed is 120  max-len
+  243:1  warning  Trailing spaces not allowed                            no-trailing-spaces
+
+/build/ext/src/symbols/tlaSymbols.ts
+   39:15  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   40:23  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   90:1   warning  Trailing spaces not allowed               no-trailing-spaces
+   94:1   warning  Trailing spaces not allowed               no-trailing-spaces
+  108:1   warning  Trailing spaces not allowed               no-trailing-spaces
+  111:13  warning  Forbidden non-null assertion              @typescript-eslint/no-non-null-assertion
+  121:1   warning  Trailing spaces not allowed               no-trailing-spaces
+  341:1   warning  Trailing spaces not allowed               no-trailing-spaces
+  343:86  warning  Trailing spaces not allowed               no-trailing-spaces
+  346:1   warning  Trailing spaces not allowed               no-trailing-spaces
+
+/build/ext/src/tla2tools.ts
+   83:1   warning  This line has a length of 123. Maximum allowed is 120  max-len
+  142:1   warning  This line has a length of 121. Maximum allowed is 120  max-len
+  436:3   warning  Trailing spaces not allowed                            no-trailing-spaces
+  446:1   warning  Trailing spaces not allowed                            no-trailing-spaces
+  451:1   warning  This line has a length of 132. Maximum allowed is 120  max-len
+  457:36  warning  Forbidden non-null assertion                           @typescript-eslint/no-non-null-assertion
+  458:36  warning  Forbidden non-null assertion                           @typescript-eslint/no-non-null-assertion
+  461:1   warning  Trailing spaces not allowed                            no-trailing-spaces
+  465:1   warning  Trailing spaces not allowed                            no-trailing-spaces
+  494:1   warning  This line has a length of 125. Maximum allowed is 120  max-len
+  502:1   warning  Trailing spaces not allowed                            no-trailing-spaces
+  507:1   warning  Trailing spaces not allowed                            no-trailing-spaces
+  520:1   warning  Trailing spaces not allowed                            no-trailing-spaces
+  526:1   warning  Trailing spaces not allowed                            no-trailing-spaces
+
+/build/ext/src/webview/checkResultView/errorTraceSection/errorTrace.tsx
+   83:1  warning  This line has a length of 153. Maximum allowed is 120  max-len
+  168:1  warning  Trailing spaces not allowed                            no-trailing-spaces
+
+/build/ext/src/webview/checkResultView/errorTraceSection/index.tsx
+  17:70  warning  Trailing spaces not allowed  no-trailing-spaces
+  18:32  warning  Trailing spaces not allowed  no-trailing-spaces
+  19:38  warning  Trailing spaces not allowed  no-trailing-spaces
+
+/build/ext/tests/playwright/error-trace.spec.ts
+  112:1  warning  Trailing spaces not allowed  no-trailing-spaces
+
+/build/ext/tests/suite/commands/divergence.test.ts
+   26:92   warning  Unexpected space before function parentheses  space-before-function-paren
+   37:97   warning  Unexpected space before function parentheses  space-before-function-paren
+   50:86   warning  Unexpected space before function parentheses  space-before-function-paren
+   63:101  warning  Unexpected space before function parentheses  space-before-function-paren
+   77:93   warning  Unexpected space before function parentheses  space-before-function-paren
+   93:72   warning  Unexpected space before function parentheses  space-before-function-paren
+  106:70   warning  Unexpected space before function parentheses  space-before-function-paren
+  122:73   warning  Unexpected space before function parentheses  space-before-function-paren
+
+/build/ext/tests/suite/commands/exportModule.test.ts
+  28:60  warning  Unexpected space before function parentheses  space-before-function-paren
+
+/build/ext/tests/suite/commands/modelResolver.test.ts
+  97:1  warning  This line has a length of 122. Maximum allowed is 120  max-len
+
+/build/ext/tests/suite/commands/parseModule.test.ts
+  87:1  warning  This line has a length of 123. Maximum allowed is 120  max-len
+
+/build/ext/tests/suite/completions/tlaCompletions.test.ts
+   86:1  warning  This line has a length of 121. Maximum allowed is 120  max-len
+  103:1  warning  This line has a length of 121. Maximum allowed is 120  max-len
+  225:1  warning  This line has a length of 121. Maximum allowed is 120  max-len
+
+/build/ext/tests/suite/debugger/debugging.test.ts
+   87:1  warning  Trailing spaces not allowed  no-trailing-spaces
+   91:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  100:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  105:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  109:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  118:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  122:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  128:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  137:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  141:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  150:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  154:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  158:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  209:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  211:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  218:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  231:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  233:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  242:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  244:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  252:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  260:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  270:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  275:1  warning  Trailing spaces not allowed  no-trailing-spaces
+  282:1  warning  Trailing spaces not allowed  no-trailing-spaces
+
+/build/ext/tests/suite/lm/mcpServer.test.ts
+  830:102  warning  Unexpected space before function parentheses  space-before-function-paren
+  843:93   warning  Unexpected space before function parentheses  space-before-function-paren
+  863:96   warning  Unexpected space before function parentheses  space-before-function-paren
+  890:88   warning  Unexpected space before function parentheses  space-before-function-paren
+
+/build/ext/tests/suite/lm/mcpServerKnowledgebase.test.ts
+   13:9   warning  'originalExtension' is assigned a value but never used  @typescript-eslint/no-unused-vars
+   13:45  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   36:1   warning  Trailing spaces not allowed                             no-trailing-spaces
+   40:41  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+   51:1   warning  Trailing spaces not allowed                             no-trailing-spaces
+   66:44  warning  Trailing spaces not allowed                             no-trailing-spaces
+  153:60  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  154:1   warning  Trailing spaces not allowed                             no-trailing-spaces
+  159:1   warning  Trailing spaces not allowed                             no-trailing-spaces
+  164:1   warning  Trailing spaces not allowed                             no-trailing-spaces
+  174:1   warning  Trailing spaces not allowed                             no-trailing-spaces
+  179:64  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  193:13  warning  'serverInstance' is assigned a value but never used     @typescript-eslint/no-unused-vars
+  198:56  warning  Trailing spaces not allowed                             no-trailing-spaces
+  199:22  warning  Trailing spaces not allowed                             no-trailing-spaces
+  202:1   warning  Trailing spaces not allowed                             no-trailing-spaces
+  204:50  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  213:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  215:1   warning  This line has a length of 127. Maximum allowed is 120   max-len
+  220:1   warning  Trailing spaces not allowed                             no-trailing-spaces
+  226:1   warning  This line has a length of 121. Maximum allowed is 120   max-len
+  231:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  238:1   warning  This line has a length of 131. Maximum allowed is 120   max-len
+  244:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  251:1   warning  This line has a length of 122. Maximum allowed is 120   max-len
+  256:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  263:1   warning  This line has a length of 122. Maximum allowed is 120   max-len
+  269:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  276:1   warning  This line has a length of 142. Maximum allowed is 120   max-len
+  281:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  289:1   warning  This line has a length of 131. Maximum allowed is 120   max-len
+  295:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  309:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  315:1   warning  This line has a length of 121. Maximum allowed is 120   max-len
+  319:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  331:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  342:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  353:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  359:1   warning  This line has a length of 126. Maximum allowed is 120   max-len
+  364:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  385:56  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  399:52  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  418:48  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  430:48  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  440:48  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  454:48  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  474:39  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  493:39  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  515:39  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  531:39  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  539:35  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+  544:35  warning  Unexpected any. Specify a different type                @typescript-eslint/no-explicit-any
+
+/build/ext/tests/suite/model/check.test.ts
+  245:37  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+  247:33  warning  Forbidden non-null assertion  @typescript-eslint/no-non-null-assertion
+
+/build/ext/tests/suite/tla2tools.test.ts
+   54:1  warning  This line has a length of 126. Maximum allowed is 120  max-len
+  362:1  warning  This line has a length of 129. Maximum allowed is 120  max-len
+  367:1  warning  This line has a length of 129. Maximum allowed is 120  max-len
+  368:1  warning  This line has a length of 135. Maximum allowed is 120  max-len
+  373:1  warning  This line has a length of 136. Maximum allowed is 120  max-len
+  378:1  warning  This line has a length of 128. Maximum allowed is 120  max-len
+
+✖ 716 problems (0 errors, 716 warnings)
+  0 errors and 619 warnings potentially fixable with the `--fix` option.
+
+>> npm run vscode:prepublish
+build complete
+>> npm run pretest
+>> the MCP server tests in the extension host
+✔ Validated version: 1.143.0
+  MCP Server regressions
+    validateArticleName should prevent path traversal
+      ✔ validateArticleName accepts valid article names
+      ✔ validateArticleName rejects path traversal attempts
+      ✔ validateArticleName rejects dangerous characters
+      ✔ validateArticleName rejects empty and invalid inputs
+      ✔ validateArticleName rejects excessively long names
+    validateWorkspacePath should block symlinks
+      - validateWorkspacePath rejects escaped path
+    HTTP endpoint routing
+      ✔ GET /mcp returns 405 without invoking the MCP handler
+      ✔ Each POST /mcp request uses a fresh MCP server instance
+    Bind address
+      ✔ The HTTP server binds loopback
+      ✔ The HTTP server binds the name localhost by default
+      ✔ The HTTP server binds the host of the setting
+      ✔ A host outside loopback is kept
+      ✔ A failed bind reports the error
+      ✔ A host that is not a non-empty string binds loopback
+      ✔ The URL registered with VS Code reaches the server
+      ✔ With no IPv4 on loopback, the server binds ::1 and registers [::1]
+      ✔ The URL of a bind to :: names 127.0.0.1 where loopback has IPv4
+      ✔ The URL of a bind to :: names [::1] where loopback has no IPv4
+      ✔ The host setting defaults to localhost
+      ✔ Only user or remote settings can set the host
+      ✔ The advertised URL names the bound address, or loopback for a wildcard bind
+      ✔ Only the loopback decides whether it has IPv4
+      ✔ localhost becomes ::1 when loopback has no IPv4
+      ✔ A bind to :: is advertised as [::1] when loopback has no IPv4
+      ✔ An interface list that cannot be read keeps localhost
+    runTLCInMCP respects explicit cfgFile parameter
+      ✔ returns config-not-found error when no cfgFile and no convention match
+      ✔ bypasses config discovery when cfgFile is explicitly provided
+      ✔ multiple cfg files per module — cfgFile selects the right config
+      ✔ returns clear error when explicit cfgFile does not exist
+    runTLCInMCP heartbeat keeps the MCP SSE stream alive
+      ✔ heartbeat fires repeatedly while TLC runs and stops once it ends
+  MCP Server Knowledge Base
+    MCP Resources Registration
+      ✔ should register knowledge base resources correctly
+      ✔ should handle missing knowledge base directory gracefully
+    Knowledge Base Tools
+      tlaplus_mcp_knowledge_list tool
+        ✔ should list all articles without search filter
+        ✔ should filter articles by search term in title
+        ✔ should filter articles by search term in description
+        ✔ should filter articles by search term in content
+        ✔ should perform case-insensitive search
+        ✔ should return empty results when no matches found
+      tlaplus_mcp_knowledge_get tool
+        ✔ should retrieve single article by name
+        ✔ should retrieve article by name with .md extension
+        ✔ should retrieve multiple articles
+        ✔ should handle article without frontmatter
+        ✔ should handle article with partial frontmatter
+        ✔ should handle non-existent articles
+        ✔ should handle mixed results (some found, some not found)
+        ✔ should validate article names and reject path traversal
+        ✔ should handle empty article list
+      Frontmatter Parsing
+        ✔ should parse complete frontmatter correctly
+        ✔ should handle frontmatter with only title
+        ✔ should handle content without frontmatter
+        ✔ should handle malformed frontmatter
+      Article Name Validation
+        ✔ should accept valid article names
+        ✔ should reject path traversal attempts
+        ✔ should reject dangerous characters
+        ✔ should reject empty and invalid inputs
+        ✔ should reject excessively long names
+  55 passing
+  1 pending
+>> npm run test:tlaplus-grammar
+✓ ./tests/suite/languages/tlaplus-grammar-test-extended.tla run successfuly.
+✓ ./tests/suite/languages/tlaplus-grammar-test-issue-361.tla run successfuly.
+✓ ./tests/suite/languages/tlaplus-grammar-test-submodule.tla run successfuly.
+✓ ./tests/suite/languages/tlaplus-grammar-test-unicode.tla run successfuly.
+✓ ./tests/suite/languages/tlaplus-grammar-test.tla run successfuly.
+done

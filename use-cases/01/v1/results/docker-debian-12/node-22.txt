@@ -1,0 +1,28 @@
+============================================================
+ TLA+ extension MCP server -- use case 01
+============================================================
+environment
+  Node v22.23.3
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+  non-loopback IPv4: <bridge-ip>
+
+## a reproduction of the shipped server: transport {sessionIdGenerator: undefined}, app.listen(port) with no host
+  -> bind :::<port> (IPv6)
+  -> POST initialize to non-loopback <bridge-ip> -> HTTP 200
+  -> POST initialize Host and Origin attacker.example -> HTTP 200
+  -> POST initialize to IPv6 loopback ::1 -> HTTP 200
+  -> OPTIONS preflight with Origin attacker.example -> HTTP 200, Access-Control-Allow-Origin: absent
+  -> POST initialize as text/plain; x=application/json, Origin attacker.example -> HTTP 400
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 01 binds the unspecified address: ::
+ as expected  use case 01 answers a request to <bridge-ip> from the same machine: HTTP 200
+ as expected  use case 01 answers a foreign Host and Origin: HTTP 200
+ as expected  use case 01 answers on IPv6 loopback: HTTP 200
+ as expected  use case 01 answers an OPTIONS with the headers of a preflight: HTTP 200
+ as expected  use case 01 sends no Access-Control-Allow-Origin: absent
+ as expected  use case 01 a POST with headers that need no preflight: HTTP 400
+============================================================
+
+done

@@ -1,6 +1,6 @@
 # Settings of these measurements, in the git config format:
 # https://git-scm.com/docs/git-config#_configuration_file
-# Each "base-commit" lists its versions. Entries are added, never changed.
+# Each "base-commit" lists the patches of the pull request made on it. Entries are added, never changed.
 
 # The labels of every container name this repository.
 [repository]
@@ -8,6 +8,91 @@
 	source = https://github.com/nonesilva-contributions/vscode-tlaplus-mcp-bind-measurements
 
 [base-commit "c869f2a64289d748d7a063bccc8d3e4945b141e9"]
-	version = v1
-	version = v2
-	version = v3
+	patch = v1
+
+# What each use case version runs with: one section for each version, written once, when the
+# version is made. A change is a new version with its own section. The section of a use case
+# holds only the loopback it measures, the same for every version of it.
+
+[use-case "01/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container
+	runs-on = windows-vm
+
+[use-case "02/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container
+	runs-on = windows-vm
+
+[use-case "03/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container
+	runs-on = windows-vm
+
+[use-case "04/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container
+	runs-on = windows-vm
+
+[use-case "05/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container
+	runs-on = windows-vm
+
+[use-case "06/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container
+	runs-on = windows-vm
+
+[use-case "07/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container
+	runs-on = windows-vm
+
+[use-case "08/v1"]
+	runners = v1
+	patch = v1
+	runs-on = vscode-extension-host
+
+[use-case "08d/v1"]
+	runners = v1
+	patch = v1
+	runs-on = vscode-extension-host
+
+[use-case "09"]
+	loopback = no-ipv6
+[use-case "09/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container
+
+[use-case "12/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container
+	runs-on = windows-vm
+
+[use-case "13/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container
+	runs-on = windows-vm
+
+[use-case "14"]
+	loopback = no-ipv4
+[use-case "14/v1"]
+	runners = v1
+	lib = v1
+	runs-on = ubuntu-vm
+
+[use-case "15/v1"]
+	runners = v1
+	lib = v1
+	runs-on = linux-container

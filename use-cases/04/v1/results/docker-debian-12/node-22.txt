@@ -1,0 +1,25 @@
+============================================================
+ TLA+ extension MCP server -- use case 04
+============================================================
+environment
+  Node v22.23.3
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+
+## a bind to localhost: app.listen(port, "localhost"), transport unchanged
+  -> the resolver order of Node: verbatim
+  -> localhost resolves to: ::1, 127.0.0.1
+  -> bind ::1:<port> (IPv6)
+  -> POST initialize to 127.0.0.1 -> ECONNREFUSED
+  -> POST initialize to ::1 -> HTTP 200
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 04 a lookup of localhost with no hints, as listen makes it: ::1, 127.0.0.1
+ as expected  use case 04 the resolver order of Node: verbatim
+ as expected  use case 04 binds one family only, the first the resolver gives: ::1
+ as expected  use case 04 the family of the bind: IPv6
+ as expected  use case 04 refuses a request to 127.0.0.1: ECONNREFUSED
+ as expected  use case 04 answers on IPv6 loopback: HTTP 200
+============================================================
+
+done

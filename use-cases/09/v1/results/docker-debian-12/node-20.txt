@@ -1,0 +1,25 @@
+============================================================
+ TLA+ extension MCP server -- use case 09
+============================================================
+environment
+  Node v20.20.2
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+  loopback lists no IPv6 address
+
+## a bind to "::" when loopback has no IPv6: dial [::1], then 127.0.0.1
+  -> app.listen(port, "::") binds :::<port>
+  -> POST initialize to ::1 -> EADDRNOTAVAIL
+  -> POST initialize to 127.0.0.1 -> HTTP 200
+  -> app.listen(port) binds ::; POST initialize to http://localhost:<port> -> HTTP 200
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 09 the loopback lists: 127.0.0.1
+ as expected  use case 09 binds the unspecified address: ::
+ as expected  use case 09 a client that dials ::1: EADDRNOTAVAIL
+ as expected  use case 09 a client that dials 127.0.0.1: HTTP 200
+ as expected  use case 09 app.listen(port), with no host, binds: ::
+ as expected  use case 09 with that bind, a client that dials the name localhost: HTTP 200
+============================================================
+
+done

@@ -11,6 +11,10 @@ container_name() { echo "${docker_repository##*/}-$1-run-$$"; }
 
 run_temporary() {
   local role=$1; shift
+  # A runner that passes the id of its caller gets 0 under sudo, and no container runs as root.
+  case "${user:-65534:65534}" in
+    0|0:*|root|root:*) echo "refused: the container $role would run as root; run as a user other than root" >&2; return 2 ;;
+  esac
   docker run --rm --init --name "$(container_name "$role")" --network "${network_mode:-none}" \
     --user "${user:-65534:65534}" -e HOME=/tmp --read-only --tmpfs "${tmpfs:-/tmp}" --cap-drop ALL \
     --security-opt no-new-privileges --memory "${mem_limit:-256m}" --cpus "${cpus:-1}" \
@@ -18,7 +22,9 @@ run_temporary() {
     --label maintenance.lifetime=temporary --label "maintenance.created-by=$docker_created_by" "$@"
 }
 
+image_tag() { echo "${docker_repository##*/}-$1:dev"; }
+
 build_image() {
   local role=$1; shift
-  docker build -q -t "${docker_repository##*/}-$role:dev" "${docker_labels[@]}" "$@"
+  docker build -q -t "$(image_tag "$role")" "${docker_labels[@]}" "$@"
 }

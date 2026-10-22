@@ -1,0 +1,34 @@
+============================================================
+ TLA+ extension MCP server -- use case 08, in the VS Code extension host
+============================================================
+environment
+  VS Code 1.143.0, Electron 43.7.7, Node v24.21.0
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+
+## the real VS Code extension host: what get returns, what localhost binds, what the server binds with 8080 in the setting
+  -> use case 08 get after update to 8080 -> number 8080
+  -> use case 08 get after update to true -> boolean true
+  -> use case 08 get after update to {"a":1} -> object {"a":1}
+  -> use case 08 get after update to ["127.0.0.1"] -> object ["127.0.0.1"]
+  -> use case 08 get after update to "" -> string ""
+  -> use case 08 process.execArgv -> ["--dns-result-order=ipv4first","--experimental-network-inspection","--expose-gc"]
+  -> use case 08 dns.getDefaultResultOrder() -> ipv4first
+  -> use case 08 localhost resolves to -> 127.0.0.1, ::1
+  -> use case 08 app.listen(0, "localhost") binds -> 127.0.0.1
+  -> use case 08 with 8080 in the setting, new MCPServer(0) binds -> 127.0.0.1
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 08 get after update to 8080: number 8080
+ as expected  use case 08 get after update to true: boolean true
+ as expected  use case 08 get after update to {"a":1}: object {"a":1}
+ as expected  use case 08 get after update to ["127.0.0.1"]: object ["127.0.0.1"]
+ as expected  use case 08 get after update to "": string ""
+ as expected  use case 08 process.execArgv: ["--dns-result-order=ipv4first","--experimental-network-inspection","--expose-gc"]
+ as expected  use case 08 dns.getDefaultResultOrder(): ipv4first
+ as expected  use case 08 localhost resolves to: 127.0.0.1, ::1
+ as expected  use case 08 app.listen(0, "localhost") binds: 127.0.0.1
+ as expected  use case 08 with 8080 in the setting, new MCPServer(0) binds: 127.0.0.1
+============================================================
+
+done

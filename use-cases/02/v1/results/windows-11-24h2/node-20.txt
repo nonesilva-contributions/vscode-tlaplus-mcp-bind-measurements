@@ -1,0 +1,24 @@
+guest: Microsoft Windows 11 Enterprise LTSC Evaluation 24H2, build 26100.1742
+============================================================
+ TLA+ extension MCP server -- use case 02
+============================================================
+environment
+  Node v20.20.2
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+  non-loopback IPv4: <bridge-ip>
+
+## a reproduction of the first version of the pull request: app.listen(port, "127.0.0.1"), transport unchanged
+  -> bind 127.0.0.1:<port> (IPv4)
+  -> POST initialize to non-loopback <bridge-ip> -> ECONNREFUSED
+  -> POST initialize Host and Origin attacker.example -> HTTP 200
+  -> POST initialize to IPv6 loopback ::1 -> ECONNREFUSED
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 02 binds IPv4 loopback: 127.0.0.1
+ as expected  use case 02 refuses a request to <bridge-ip> from the same machine: ECONNREFUSED
+ as expected  use case 02 still answers a foreign Host from loopback: HTTP 200
+ as expected  use case 02 refuses IPv6 loopback: ECONNREFUSED
+============================================================
+
+done

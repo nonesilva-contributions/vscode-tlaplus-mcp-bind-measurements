@@ -1,0 +1,27 @@
+guest: Microsoft Windows 11 Enterprise LTSC Evaluation 24H2, build 26100.1742
+============================================================
+ TLA+ extension MCP server -- use case 05
+============================================================
+environment
+  Node v20.20.2
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+
+## a failed listen: app.listen(port, "192.0.2.1", callback), then an error handler
+  -> the callback gets EADDRNOTAVAIL
+  -> address() inside the callback -> null
+  -> callback reads address().address -> TypeError; ran: callback
+  -> callback returns on the error; ran: callback, error handler, with EADDRNOTAVAIL
+  -> the callback of c869f2a on a held port; ran: callback gets EADDRINUSE, address() null, builds the URL of the held port, error handler gets EADDRINUSE
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 05 calls the listen callback with the error: EADDRNOTAVAIL
+ as expected  use case 05 address() inside the callback: null
+ as expected  use case 05 a callback that reads address().address throws: TypeError
+ as expected  use case 05 the message of that TypeError: Cannot read properties of null (reading 'address')
+ as expected  use case 05 what runs when that callback throws: callback
+ as expected  use case 05 with the guard, the error handler runs: callback, error handler: EADDRNOTAVAIL
+ as expected  use case 05 the callback of c869f2a on a held port: callback gets EADDRINUSE, address() null, builds the URL of the held port, error handler gets EADDRINUSE
+============================================================
+
+done

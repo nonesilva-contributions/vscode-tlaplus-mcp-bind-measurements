@@ -1,0 +1,36 @@
+============================================================
+ TLA+ extension MCP server -- use case 15
+============================================================
+environment
+  Node v22.23.3
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+  resolver order ipv4first, set by this script
+
+## a localhost bind when localhost resolves to 127.0.0.1 first
+  -> localhost resolves to: 127.0.0.1, ::1
+  -> bind 127.0.0.1:<port> (IPv4)
+  -> POST initialize to ::1 -> ECONNREFUSED
+  -> POST initialize to 127.0.0.1 -> HTTP 200
+  -> POST initialize to http://localhost:<port> -> HTTP 200
+  -> another server on ::1:<port> -> listening
+  -> POST initialize to http://localhost:<port> -> HTTP 200, the MCP server
+  -> POST initialize to the bound address 127.0.0.1 -> HTTP 200
+  -> with the shipped bind to ::, another server on ::1 -> EADDRINUSE
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 15 the resolver order of Node: ipv4first
+ as expected  use case 15 localhost resolves to: 127.0.0.1, ::1
+ as expected  use case 15 binds one family only, the first the resolver gives: 127.0.0.1
+ as expected  use case 15 the family of the bind: IPv4
+ as expected  use case 15 refuses IPv6 loopback when bound to 127.0.0.1: ECONNREFUSED
+ as expected  use case 15 answers on IPv4 loopback: HTTP 200
+ as expected  use case 15 a client that dials the name localhost: HTTP 200
+ as expected  use case 15 another server binds ::1 on the same port: listening
+ as expected  use case 15 with the other server, a client that dials the name localhost: HTTP 200
+ as expected  use case 15 with the other server, a client that dials the bound address: HTTP 200
+ as expected  use case 15 the shipped bind, app.listen(port) with no host, binds: ::
+ as expected  use case 15 with the shipped bind to ::, another server binds ::1 on the same port: EADDRINUSE
+============================================================
+
+done

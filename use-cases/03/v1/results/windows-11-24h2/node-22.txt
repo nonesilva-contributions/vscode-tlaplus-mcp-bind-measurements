@@ -1,0 +1,28 @@
+guest: Microsoft Windows 11 Enterprise LTSC Evaluation 24H2, build 26100.1742
+============================================================
+ TLA+ extension MCP server -- use case 03
+============================================================
+environment
+  Node v22.23.3
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+  non-loopback IPv4: <bridge-ip>
+
+## a bind to 127.0.0.1 with Host checks: app.listen(port, "127.0.0.1") plus {enableDnsRebindingProtection: true, allowedHosts, allowedOrigins: []}
+  -> bind 127.0.0.1:<port> (IPv4)
+  -> POST initialize to non-loopback <bridge-ip> -> ECONNREFUSED
+  -> POST initialize Host attacker.example, no Origin -> HTTP 403
+  -> POST initialize Host 127.0.0.1:<port>, Origin attacker.example -> HTTP 200
+  -> POST initialize Host localhost:<port> -> HTTP 200
+  -> shipped transport, POST initialize Host attacker.example -> HTTP 200
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 03 binds IPv4 loopback: 127.0.0.1
+ as expected  use case 03 refuses a request to <bridge-ip> from the same machine: ECONNREFUSED
+ as expected  use case 03 refuses a foreign Host with no Origin: HTTP 403
+ as expected  use case 03 answers a foreign Origin with an allowed Host, allowedOrigins []: HTTP 200
+ as expected  use case 03 answers the Host localhost with the port: HTTP 200
+ as expected  use case 03 with the shipped transport, answers a foreign Host: HTTP 200
+============================================================
+
+done

@@ -1,0 +1,63 @@
+guest: Microsoft Windows 11 Enterprise LTSC Evaluation 24H2, build 26100.1742
+============================================================
+ TLA+ extension MCP server -- use case 13
+============================================================
+environment
+  Node v22.23.3
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+
+## input limits from the defaults of express.json() and of the Node http server
+  -> POST initialize padded with spaces to 102400 bytes -> HTTP 200
+  -> POST initialize padded with spaces to 102401 bytes -> HTTP 413
+  -> the page of a HTTP 413: names the class of the error yes, a stack frame in node_modules yes
+  -> gzip, 65250 bytes on the wire that inflate to 64 MiB -> HTTP 413; maxRSS grew below 8 MiB
+  -> deflate, 65238 bytes on the wire that inflate to 64 MiB -> HTTP 413; maxRSS grew below 8 MiB
+  -> br, 102 bytes on the wire that inflate to 64 MiB -> HTTP 413; maxRSS grew below 8 MiB
+  -> POST initialize with Content-Encoding compress -> HTTP 415
+  -> POST initialize as application/json-patch+json, padded to 4194304 bytes -> HTTP 200
+  -> POST initialize as application/json-patch+json, padded to 4194305 bytes -> HTTP 400
+  -> http.maxHeaderSize 16384
+  -> POST initialize, header section of 16383 bytes, request line to blank line -> HTTP 200
+  -> POST initialize, one header value of 16385 bytes -> HTTP 431
+  -> read from the server, not exercised: requestTimeout 300000, headersTimeout 60000, keepAliveTimeout 5000, maxRequestsPerSocket 0
+  -> process.env.NODE_ENV undefined
+  -> Express printed 6 error stacks on stderr during this use case, kept out of this output
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 13 the length of the body at the limit: 102400
+ as expected  use case 13 a body at the limit: HTTP 200
+ as expected  use case 13 the length of the body one byte over the limit: 102401
+ as expected  use case 13 a body one byte over the limit: HTTP 413
+ as expected  use case 13 the page of a 413 names the class of the error: yes
+ as expected  use case 13 the page of a 413 holds a stack frame in node_modules: yes
+ as expected  use case 13 the gzip body on the wire: under 102400 bytes
+ as expected  use case 13 the length of the gzip body on the wire: 65250
+ as expected  use case 13 a gzip body that inflates to 64 MiB: HTTP 413
+ as expected  use case 13 maxRSS growth across the gzip request: below 8 MiB
+ as expected  use case 13 the deflate body on the wire: under 102400 bytes
+ as expected  use case 13 the length of the deflate body on the wire: 65238
+ as expected  use case 13 a deflate body that inflates to 64 MiB: HTTP 413
+ as expected  use case 13 maxRSS growth across the deflate request: below 8 MiB
+ as expected  use case 13 the br body on the wire: under 102400 bytes
+ as expected  use case 13 the length of the br body on the wire: 102
+ as expected  use case 13 a br body that inflates to 64 MiB: HTTP 413
+ as expected  use case 13 maxRSS growth across the br request: below 8 MiB
+ as expected  use case 13 an encoding the parser does not support, compress: HTTP 415
+ as expected  use case 13 the length of the application/json-patch+json body at the 4mb limit: 4194304
+ as expected  use case 13 application/json-patch+json, at the 4mb limit of the transport: HTTP 200
+ as expected  use case 13 the length of the application/json-patch+json body one byte over the 4mb limit: 4194305
+ as expected  use case 13 application/json-patch+json, one byte over the 4mb limit of the transport: HTTP 400
+ as expected  use case 13 http.maxHeaderSize: 16384
+ as expected  use case 13 the length of the header section, request line to blank line: 16383
+ as expected  use case 13 a header section of 16383 bytes, request line to blank line: HTTP 200
+ as expected  use case 13 one header value of 16385 bytes: HTTP 431
+ as expected  use case 13 requestTimeout, read from the server, not exercised: 300000
+ as expected  use case 13 headersTimeout, read from the server, not exercised: 60000
+ as expected  use case 13 keepAliveTimeout, read from the server, not exercised: 5000
+ as expected  use case 13 maxRequestsPerSocket, read from the server, not exercised: 0
+ as expected  use case 13 process.env.NODE_ENV: undefined
+ as expected  use case 13 error stacks that Express printed on stderr: 6
+============================================================
+
+done

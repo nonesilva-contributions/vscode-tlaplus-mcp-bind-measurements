@@ -1,0 +1,23 @@
+============================================================
+ TLA+ extension MCP server -- use case 06
+============================================================
+environment
+  Node v20.20.2
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+  non-loopback IPv4: <bridge-ip>
+
+## a host that is not a non-empty string: app.listen(port, 8080), then app.listen(port, '')
+  -> app.listen(port, 8080) binds :::<port>
+  -> POST initialize to non-loopback <bridge-ip> -> HTTP 200
+  -> app.listen(port, '') binds :::<port>
+  -> POST initialize to non-loopback <bridge-ip> -> HTTP 200
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 06 a number as host binds the unspecified address: ::
+ as expected  use case 06 a number as host answers a request to <bridge-ip> from the same machine: HTTP 200
+ as expected  use case 06 an empty string as host binds the unspecified address: ::
+ as expected  use case 06 an empty string as host answers a request to <bridge-ip> from the same machine: HTTP 200
+============================================================
+
+done

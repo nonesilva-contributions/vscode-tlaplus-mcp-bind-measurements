@@ -1,0 +1,38 @@
+guest: Ubuntu 24.04.5 LTS, kernel 6.8.0-142-generic
+============================================================
+ TLA+ extension MCP server -- use case 14
+============================================================
+environment
+  Node v22.23.3
+  express 5.1.0, @modelcontextprotocol/sdk 1.17.2
+  every listed address is an IPv6 loopback address
+
+## binds when loopback has no IPv4: localhost in two resolver orders, 127.0.0.1, ::1, then "::"
+  -> /etc/hosts names localhost on: 127.0.0.1 localhost
+  -> with the order verbatim, localhost resolves to: 127.0.0.1
+  -> app.listen(port, "localhost") -> EADDRNOTAVAIL
+  -> with the order ipv4first, localhost resolves to: 127.0.0.1
+  -> app.listen(port, "localhost") -> EADDRNOTAVAIL
+  -> app.listen(port, "127.0.0.1") -> EADDRNOTAVAIL
+  -> app.listen(port, "::1") -> ::1
+  -> POST initialize to ::1 -> HTTP 200
+  -> app.listen(port, "::") binds :::<port>
+  -> POST initialize to 127.0.0.1 -> ENETUNREACH
+  -> POST initialize to ::1 -> HTTP 200
+
+============================================================
+ SUMMARY, one line per row above
+ as expected  use case 14 the lines of /etc/hosts that name localhost: 127.0.0.1 localhost
+ as expected  use case 14 with the order verbatim, localhost resolves to: 127.0.0.1
+ as expected  use case 14 with the order verbatim, localhost binds: EADDRNOTAVAIL
+ as expected  use case 14 with the order ipv4first, localhost resolves to: 127.0.0.1
+ as expected  use case 14 with the order ipv4first, localhost binds: EADDRNOTAVAIL
+ as expected  use case 14 a bind to 127.0.0.1: EADDRNOTAVAIL
+ as expected  use case 14 a bind to ::1: ::1
+ as expected  use case 14 a client that dials [::1] on the bind to ::1: HTTP 200
+ as expected  use case 14 a wildcard bind: ::
+ as expected  use case 14 a client that dials 127.0.0.1: ENETUNREACH
+ as expected  use case 14 a client that dials [::1] on the bind to ::: HTTP 200
+============================================================
+
+done

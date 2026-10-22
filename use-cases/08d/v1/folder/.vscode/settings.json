@@ -1,0 +1,5 @@
+{
+    "tlaplus.mcp.host": "0.0.0.0",
+    "tlaplus.mcp.port": -1,
+    "editor.tabSize": 3
+}
